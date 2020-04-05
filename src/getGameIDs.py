@@ -3,34 +3,44 @@ import lichess.api
 from pprint import pprint
 from setup import setup
 import pathlib
+import datetime
 
 
-def get_game_ids(name):
-    # TODO: pass also path_name with default
-    # TODO: pass prefered game qualification ('blitz'), make test after this step
+def convert_ms_to_date(time_in_ms):
+    base_datetime = datetime.datetime(1970, 1, 1)
+    delta = datetime.timedelta(0, 0, 0, time_in_ms)
+    return base_datetime + delta
+
+
+def get_game_ids(name, path_name='resources/game_ids.dat', pref_type='blitz'):
+    # TODO: pass also path_name with default - DONE
+    # TODO: pass preferred game qualification ('blitz'), make test after this step
     # TODO: write dates in a readable/intuitive format
-    path_name = 'resources/game_ids.dat'
+
     if os.path.exists(path_name):
         print(path_name + ' exists. Reading this file.')
         return "From file."
 
     user = lichess.api.user(name)
 
-    TOKEN = setup()
+    token = setup()
     # pprint(TOKEN)
 
     # print(user['perfs'].values())
     # for i in user['perfs']:
     #    print(i, "\t", user['perfs'][i])
 
-    # time in miliseconds since Jan 1st 1970
-    len_blitz_games = user['perfs']['blitz']['games']
+    # time in milliseconds since Jan 1st 1970
+    len_blitz_games = user['perfs'][pref_type]['games']
     initial_time = user['createdAt']
     latest_time = user['seenAt']
     delta_time = latest_time - initial_time
 
     pprint("Reading " + str(len_blitz_games) + " games.")
     print(initial_time, latest_time, delta_time)
+    print(convert_ms_to_date(initial_time),
+          convert_ms_to_date(latest_time),
+          convert_ms_to_date(delta_time))
 
     games_list = list()
 
@@ -38,10 +48,10 @@ def get_game_ids(name):
     for time in range(initial_time, latest_time, increment):
         games_generator = lichess.api.user_games(
             name,
-            perfType='blitz',
+            perfType=pref_type,
             since=time,
             until=time + increment,
-            auth=TOKEN
+            auth=token
         )
 
         games_list += list(games_generator)
