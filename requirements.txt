@@ -2,3 +2,4 @@ python-dotenv
 python-lichess
 python-chess
 jupyterlab
+pytest
