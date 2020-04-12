@@ -2,8 +2,8 @@ import os
 from lichess.format import SINGLE_PGN, PGN, JSON
 import lichess.api
 from pprint import pprint
-from setup import setup
-from getGameIDs import get_game_ids
+from src.setup_env import setup
+from src.get_game_ids import get_game_ids
 import sys
 
 
@@ -18,7 +18,9 @@ def get_game_filename(file_id, token, input_format):
         raise NameError('No valid format.')
 
     if not os.path.exists(filename):
-        game = lichess.api.game(file_id, format=input_format, auth=token)
+        game = lichess.api.game(file_id,
+                                format=input_format,
+                                auth=token)
         print("File " + filename + " does not exist yet. Downloading...")
         with open(filename, 'w') as file:
             file.write(str(game))
@@ -37,7 +39,8 @@ def download_games(name, input_format):
 
     with open('resources/game_ids.dat', 'r') as f:
         game_id_list = f.readlines()
-    game_id_list = [(game_id_list[0][i:i + 8]) for i in range(0, len(game_id_list[0]), 8)]
+    game_id_list = [(game_id_list[0][i:i + 8]) for i in
+                    range(0, len(game_id_list[0]), 8)]
 
     for id in game_id_list:
         game, filename = get_game_filename(id, token, input_format)
