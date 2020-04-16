@@ -81,7 +81,7 @@ list_tags(divide_by_tag(games, 'result'))
 #                “Mode”, “FEN”
 # Extra Tags: 'Variant', 'Opening', 'WhiteElo', 'BlackElo'
 
-# standard_games = [games for game in games
+# standard_games = [game for game in games
 #                   if game.variant == 'Standard']
 
 games_by_variant = divide_by_tag(games, 'variant')
