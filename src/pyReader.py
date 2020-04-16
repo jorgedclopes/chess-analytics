@@ -74,12 +74,15 @@ for filename in os.listdir(folder):
 
 list_tags(divide_by_tag(games, 'result'))
 
-# Required Tags: “Event”, “Site”, “Date”, “Round”, “White”, “Black”, “Result”
-# Optional Tags: “Annotator”, “PlyCount”, “TimeControl”, “Time”, “Termination”,
-#   “Mode”, “FEN”
+# Required Tags: “Event”, “Site”, “Date”,
+#                “Round”, “White”, “Black”, “Result”
+# Optional Tags: “Annotator”, “PlyCount”,
+#                “TimeControl”, “Time”, “Termination”,
+#                “Mode”, “FEN”
 # Extra Tags: 'Variant', 'Opening', 'WhiteElo', 'BlackElo'
 
-# standard_games = [games for game in games if game.variant == 'Standard']
+# standard_games = [game for game in games
+#                   if game.variant == 'Standard']
 
 games_by_variant = divide_by_tag(games, 'variant')
 
@@ -95,12 +98,15 @@ print('')
 print('Time (s) | Tot    | Win%   | W      | D      | L      ')
 print('---------+--------+--------+--------+--------+--------')
 
-times_increasing = sorted(games_by_time.keys(), key=lambda time: eval(time))
+times_increasing = sorted(games_by_time.keys(),
+                          key=lambda time: eval(time))
 times_by_played = sorted(games_by_time.keys(),
-                         key=lambda time: len(games_by_time[time]), reverse=True)
+                         key=lambda time: len(games_by_time[time]),
+                         reverse=True)
 
 for time in times_by_played:
-    results = divide_by_result(games_by_time[time],'carequinha')
+    results = divide_by_result(games_by_time[time],
+                               'carequinha')
 
     num_wins = len(results['win'])
     num_draws = len(results['draw'])
@@ -108,12 +114,17 @@ for time in times_by_played:
     num_total = num_wins + num_draws + num_losses
 
     if num_total > 0:
-        win_rate = 100 * num_wins / num_total
+        win_rate = num_wins / num_total
     else:
         win_rate = -1
 
     print('{:8} | {:<{width}} | {:6.2f} | {:<{width}} | {:<{width}} | {:<{width}}'.format(
-        time, num_total, win_rate, num_wins, num_draws, num_losses,
+        time,
+        num_total,
+        100 * win_rate,
+        num_wins,
+        num_draws,
+        num_losses,
         width='6'))
 
 print('\nDone')

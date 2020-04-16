@@ -1,7 +1,7 @@
 import os
 import lichess.api
 from pprint import pprint
-from src.setup_env import setup
+from setup_env import setup
 import datetime
 
 
@@ -23,7 +23,7 @@ def get_game_ids(name,
 
     if os.path.exists(path_name):
         print(path_name + ' exists. Reading this file.')
-        return "From file."
+        return "Specifications ignored. Reading from file."
 
     user = lichess.api.user(name)
 
@@ -72,8 +72,7 @@ def get_game_ids(name,
         game_len = len(games_list)
         print("{:15d} {:06.2f} {:4d}"
               .format(time_index,
-                      (time_index - initial_time) /
-                      increment,
+                      (time_index - initial_time) / increment,
                       game_len))
 
         if game_len >= len_total_games:
