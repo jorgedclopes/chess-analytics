@@ -3,3 +3,4 @@ resources/
 venv/
 .env
 src/__pycache__/
+*/.ipynb_checkpoints
