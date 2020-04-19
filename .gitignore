@@ -3,3 +3,6 @@ resources/
 venv/
 .env
 src/__pycache__/
+tests/unit/__pycache__/
+tests/__pycache__/
+src/.ipynb_checkpoints/
