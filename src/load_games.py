@@ -1,7 +1,7 @@
 '''
     This script takes data available locally and produces some results.
 '''
-
+import ast
 import os
 import lichess.api
 from operator import itemgetter
@@ -11,7 +11,7 @@ name = 'carequinha'
 user = lichess.api.user(name)
 
 
-def getGames(file):
+def get_games(file):
     with open(os.path.join(os.getcwd(),
                            file), 'r') as f:
         game_id_list = f.readlines()
@@ -21,12 +21,12 @@ def getGames(file):
 
     games = list()
     for id_var in game_id_list:
-        filename = "resources/JSON_database/" +\
+        filename = "resources/PGN_database/" +\
                    id_var +\
-                   ".json"
+                   ".pgn"
         with open(os.path.join(os.getcwd(),
                                filename), 'r') as f:
-            ind_game = json.loads(f.read())
+            ind_game = ast.literal_eval(f.read())
             games.append(ind_game)
 
     games = sorted(games,

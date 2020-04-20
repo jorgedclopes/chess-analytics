@@ -1,7 +1,7 @@
-from src.get_game_ids import get_game_ids
-import os
+from src.get_games import get_games
 import lichess
 import logging
+import os
 
 
 class Test:
@@ -13,11 +13,11 @@ class Test:
         user = lichess.api.user('carequinha')
         initial_time = user['createdAt']
         log.warning('before function call')
-        output = get_game_ids(name='carequinha',
-                              path_name=path,
-                              initial_time=initial_time,
-                              latest_time=initial_time +
-                                          30 * 60 * 1000)
+        output = get_games(name='carequinha',
+                           path_name=path,
+                           initial_time=initial_time,
+                           latest_time=initial_time +
+                                       30 * 60 * 1000)
         log.debug('after function call')
         # check the first 30 minutes
         assert output == "From remote."
@@ -36,12 +36,12 @@ class Test:
         user = lichess.api.user('carequinha')
         initial_time = user['createdAt']
         log.warning('before function call')
-        output = get_game_ids(name='carequinha',
-                              path_name=path,
-                              pref_type='blitz',
-                              initial_time=initial_time,
-                              latest_time=initial_time +
-                                          30 * 60 * 1000)
+        output = get_games(name='carequinha',
+                           path_name=path,
+                           pref_type='blitz',
+                           initial_time=initial_time,
+                           latest_time=initial_time +
+                                       30 * 60 * 1000)
         log.debug('after function call')
         # check the first 30 minutes
         assert output == "From remote."
@@ -60,18 +60,18 @@ class Test:
         user = lichess.api.user('carequinha')
         initial_time = user['createdAt']
         log.warning('before function call')
-        output = get_game_ids(name='carequinha',
-                              path_name=path,
-                              initial_time=initial_time,
-                              latest_time=initial_time +
-                                          30 * 60 * 1000)
+        output = get_games(name='carequinha',
+                           path_name=path,
+                           initial_time=initial_time,
+                           latest_time=initial_time +
+                                       30 * 60 * 1000)
         log.debug('after function call')
         assert output == "From remote."
-        output = get_game_ids(name='carequinha',
-                              path_name=path,
-                              initial_time=initial_time,
-                              latest_time=initial_time +
-                                          30 * 60 * 1000)
+        output = get_games(name='carequinha',
+                           path_name=path,
+                           initial_time=initial_time,
+                           latest_time=initial_time +
+                                       30 * 60 * 1000)
         assert output == "Specifications ignored. " \
                          "Reading from file."
         with open(path, 'r') as f:
