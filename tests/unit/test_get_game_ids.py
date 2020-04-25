@@ -48,7 +48,7 @@ class Test:
                                 pref_type='blitz',
                                 initial_time=initial_time,
                                 latest_time=initial_time +
-                                            30 * 60 * 1000,
+                                            time_30min,
                                 is_rated=None)
         log.debug('after function call')
         # check the first 30 minutes
@@ -72,7 +72,7 @@ class Test:
                                 path_name=path,
                                 initial_time=initial_time,
                                 latest_time=initial_time +
-                                            30 * 60 * 1000,
+                                            time_30min,
                                 is_rated=None)
         log.debug('after function call')
         assert output == "From remote."
@@ -80,7 +80,7 @@ class Test:
                                 path_name=path,
                                 initial_time=initial_time,
                                 latest_time=initial_time +
-                                            30 * 60 * 1000,
+                                            time_30min,
                                 is_rated=None)
         assert output == "Specifications ignored. " \
                          "Reading from file."
