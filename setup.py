@@ -1,13 +1,15 @@
-from setuptools import setup
+import setuptools
 
-setup(
-    name='ChessAnalytics',
-    version='0.0.2',
-    packages='',
+setuptools.setup(
+    name='chess-analytics',
+    version='0.1.1',
+    packages=setuptools.find_packages(),
     url='',
     license='',
     maintainer='Jorge Lopes',
     maintainer_email='jorgedclopes@gmail.com',
+    author='Jorge Lopes',
+    author_email='jorgedclopes@gmail.com',
     description='Insights about one\'s chess games.',
     include_package_data=True
 )

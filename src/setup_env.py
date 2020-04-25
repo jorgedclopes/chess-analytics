@@ -5,6 +5,9 @@ import warnings
 
 def setup(path=None):
     env_var = 'lichess_token'
+    DB_dir = 'resources/PGN_database'
+    if not os.path.isdir(DB_dir):
+        os.makedirs(DB_dir)
     if path is not None:
         path = os.path.join(path, '.env')
     os.environ.clear()

@@ -9,7 +9,7 @@ class TestSetup:
             token = setup('/this_not_real_path')
             warnings.warn("No token loaded.", ResourceWarning)
         assert token is None
-        assert 3 == len(w)
+        assert 2 == len(w)
 
     def test_there_is_a_dotenv(self):
         token = setup()

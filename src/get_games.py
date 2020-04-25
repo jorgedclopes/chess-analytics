@@ -1,7 +1,7 @@
 import os
 import lichess.api
 from pprint import pprint
-from setup_env import setup
+from src.setup_env import setup
 import datetime
 
 
@@ -12,13 +12,21 @@ def convert_ms_to_date(time_in_ms):
     return base_datetime + delta
 
 
+def save_to_file(game,
+                 save_path='resources/PGN_database'):
+    filename = save_path + '/' + game['id'] + '.pgn'
+    with open(filename, 'w') as file:
+        file.write(str(game))
+
+
 # Doing this can take quite some time
-def get_game_ids(name,
-                 path_name='resources/game_ids.dat',
-                 pref_type=None,
-                 initial_time=None,
-                 latest_time=None
-                 ):
+def download_games(name,
+                   path_name='resources/game_ids.dat',
+                   pref_type=None,
+                   initial_time=None,
+                   latest_time=None,
+                   is_rated=True,
+                   ):
     # TODO: make test after this step
 
     if os.path.exists(path_name):
@@ -42,7 +50,7 @@ def get_game_ids(name,
     delta_time = latest_time - initial_time
 
     len_total_games = 0
-    for key in  user['perfs']:
+    for key in user['perfs']:
         len_total_games += user['perfs'][key]['games']
 
     pprint("Total games seen: " + str(len_total_games))
@@ -65,6 +73,7 @@ def get_game_ids(name,
             perfType=pref_type,
             since=time_index,
             until=time_index + increment,
+            rated=is_rated,
             auth=token
         )
 
@@ -84,6 +93,7 @@ def get_game_ids(name,
     with open(path_name, 'w') as f:
         for game in games_list:
             f.writelines(game['id'])
+            save_to_file(game)
 
     return "From remote."
 
@@ -92,4 +102,5 @@ def get_game_ids(name,
 # games_length = sum(1 for _ in games)
 
 if __name__ == "__main__":
-    get_game_ids('carequinha')
+    download_games('carequinha',
+                   is_rated=True)
