@@ -6,7 +6,7 @@ import logging
 import os
 
 # this is not ideal but it works for now
-time_30min = 30 * 60 * 1000
+TIME_30MIN = 30 * 60 * 1000
 
 
 class Test:

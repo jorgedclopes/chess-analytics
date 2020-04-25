@@ -11,6 +11,8 @@ name = 'carequinha'
 user = lichess.api.user(name)
 
 
+# TODO: give folder as argument and read all files in folder
+# TODO: create tests
 def load_games(file):
     with open(os.path.join(os.getcwd(),
                            file), 'r') as f:
