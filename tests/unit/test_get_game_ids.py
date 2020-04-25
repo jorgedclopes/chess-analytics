@@ -5,13 +5,12 @@ import lichess
 import logging
 import os
 
-
-@pytest.fixture(scope='class')
-def time_30min():
-    return 30 * 60 * 1000
+# this is not ideal but it works for now
+time_30min = 30 * 60 * 1000
 
 
 class Test:
+
     def test_no_game_ids(self):
         log = logging.getLogger('test_no_game_ids')
         path = 'resources/game_ids_test.dat'
@@ -24,7 +23,7 @@ class Test:
                                 path_name=path,
                                 initial_time=initial_time,
                                 latest_time=initial_time +
-                                            time_30min(),
+                                            time_30min,
                                 is_rated=None)
         log.debug('after function call')
         # check the first 30 minutes
