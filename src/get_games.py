@@ -15,19 +15,18 @@ def convert_ms_to_date(time_in_ms):
 def save_to_file(game,
                  save_path='resources/PGN_database'):
     filename = save_path + '/' + game['id'] + '.pgn'
-    print(type(game))
     with open(filename, 'w') as file:
         file.write(str(game))
 
 
 # Doing this can take quite some time
-def get_games(name,
-              path_name='resources/game_ids.dat',
-              pref_type=None,
-              initial_time=None,
-              latest_time=None,
-              is_rated=None,
-              ):
+def download_games(name,
+                   path_name='resources/game_ids.dat',
+                   pref_type=None,
+                   initial_time=None,
+                   latest_time=None,
+                   is_rated=True,
+                   ):
     # TODO: make test after this step
 
     if os.path.exists(path_name):
@@ -103,5 +102,5 @@ def get_games(name,
 # games_length = sum(1 for _ in games)
 
 if __name__ == "__main__":
-    get_game_ids('carequinha',
-                 is_rated=True)
+    download_games('carequinha',
+                   is_rated=True)

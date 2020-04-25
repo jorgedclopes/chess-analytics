@@ -1,7 +1,14 @@
-from src.get_games import get_games
+import pytest
+
+from src.get_games import download_games
 import lichess
 import logging
 import os
+
+
+@pytest.fixture(scope='class')
+def time_30min():
+    return 30 * 60 * 1000
 
 
 class Test:
@@ -13,11 +20,12 @@ class Test:
         user = lichess.api.user('carequinha')
         initial_time = user['createdAt']
         log.warning('before function call')
-        output = get_games(name='carequinha',
-                           path_name=path,
-                           initial_time=initial_time,
-                           latest_time=initial_time +
-                                       30 * 60 * 1000)
+        output = download_games(name='carequinha',
+                                path_name=path,
+                                initial_time=initial_time,
+                                latest_time=initial_time +
+                                            time_30min(),
+                                is_rated=None)
         log.debug('after function call')
         # check the first 30 minutes
         assert output == "From remote."
@@ -36,12 +44,13 @@ class Test:
         user = lichess.api.user('carequinha')
         initial_time = user['createdAt']
         log.warning('before function call')
-        output = get_games(name='carequinha',
-                           path_name=path,
-                           pref_type='blitz',
-                           initial_time=initial_time,
-                           latest_time=initial_time +
-                                       30 * 60 * 1000)
+        output = download_games(name='carequinha',
+                                path_name=path,
+                                pref_type='blitz',
+                                initial_time=initial_time,
+                                latest_time=initial_time +
+                                            30 * 60 * 1000,
+                                is_rated=None)
         log.debug('after function call')
         # check the first 30 minutes
         assert output == "From remote."
@@ -60,18 +69,20 @@ class Test:
         user = lichess.api.user('carequinha')
         initial_time = user['createdAt']
         log.warning('before function call')
-        output = get_games(name='carequinha',
-                           path_name=path,
-                           initial_time=initial_time,
-                           latest_time=initial_time +
-                                       30 * 60 * 1000)
+        output = download_games(name='carequinha',
+                                path_name=path,
+                                initial_time=initial_time,
+                                latest_time=initial_time +
+                                            30 * 60 * 1000,
+                                is_rated=None)
         log.debug('after function call')
         assert output == "From remote."
-        output = get_games(name='carequinha',
-                           path_name=path,
-                           initial_time=initial_time,
-                           latest_time=initial_time +
-                                       30 * 60 * 1000)
+        output = download_games(name='carequinha',
+                                path_name=path,
+                                initial_time=initial_time,
+                                latest_time=initial_time +
+                                            30 * 60 * 1000,
+                                is_rated=None)
         assert output == "Specifications ignored. " \
                          "Reading from file."
         with open(path, 'r') as f:

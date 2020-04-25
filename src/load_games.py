@@ -11,7 +11,7 @@ name = 'carequinha'
 user = lichess.api.user(name)
 
 
-def get_games(file):
+def load_games(file):
     with open(os.path.join(os.getcwd(),
                            file), 'r') as f:
         game_id_list = f.readlines()
