@@ -1,6 +1,6 @@
-'''
+"""
     This script takes data available locally and produces some results.
-'''
+"""
 import ast
 import os
 import lichess.api
@@ -11,8 +11,6 @@ name = 'carequinha'
 user = lichess.api.user(name)
 
 
-# TODO: give folder as argument and read all files in folder
-# TODO: create tests
 def load_games(file):
     with open(os.path.join(os.getcwd(),
                            file), 'r') as f:

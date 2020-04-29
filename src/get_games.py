@@ -5,7 +5,6 @@ from src.setup_env import setup
 import datetime
 
 
-# Irrelevant with PGNs, just convenient for readability
 def convert_ms_to_date(time_in_ms):
     base_datetime = datetime.datetime(1970, 1, 1)
     delta = datetime.timedelta(0, 0, 0, time_in_ms)
@@ -19,7 +18,6 @@ def save_to_file(game,
         file.write(str(game))
 
 
-# Doing this can take quite some time
 def download_games(name,
                    path_name='resources/game_ids.dat',
                    pref_type=None,
@@ -27,7 +25,6 @@ def download_games(name,
                    latest_time=None,
                    is_rated=True,
                    ):
-    # TODO: make test after this step
 
     if os.path.exists(path_name):
         print(path_name + ' exists. Reading this file.')
@@ -36,7 +33,6 @@ def download_games(name,
     user = lichess.api.user(name)
 
     token = setup()
-    # pprint(TOKEN)
 
     # print(user['perfs'].values())
     # for i in user['perfs']:
@@ -61,8 +57,8 @@ def download_games(name,
 
     games_list = list()
 
-    # this is not optimal...
-    increment = max([int(delta_time / 100), 30 * 60 * 1000])
+    time_30min = 30 * 60 * 1000
+    increment = max([int(delta_time / 100), time_30min])
     for time_index in range(initial_time,
                             latest_time,
                             increment):
@@ -87,9 +83,6 @@ def download_games(name,
         if game_len >= len_total_games:
             break
 
-    # for game in games_list:
-    #    print(game['id'])
-
     with open(path_name, 'w') as f:
         for game in games_list:
             f.writelines(game['id'])
@@ -97,9 +90,6 @@ def download_games(name,
 
     return "From remote."
 
-
-# print(type(games))
-# games_length = sum(1 for _ in games)
 
 if __name__ == "__main__":
     download_games('carequinha',
