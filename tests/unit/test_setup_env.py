@@ -12,7 +12,7 @@ class TestSetup:
         assert 2 == len(w)
 
     def test_there_is_a_dotenv(self):
-        token = setup()
+        token = setup('resources/')
         assert type(token) == str
         # checks if the string is not empty
         assert token is not False

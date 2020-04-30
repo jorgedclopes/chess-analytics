@@ -1,5 +1,3 @@
-import pytest
-
 from src.get_games import download_games
 import lichess
 import logging
@@ -23,7 +21,7 @@ class Test:
                                 path_name=path,
                                 initial_time=initial_time,
                                 latest_time=initial_time +
-                                            time_30min,
+                                            TIME_30MIN,
                                 is_rated=None)
         log.debug('after function call')
         # check the first 30 minutes
@@ -48,7 +46,7 @@ class Test:
                                 pref_type='blitz',
                                 initial_time=initial_time,
                                 latest_time=initial_time +
-                                            time_30min,
+                                            TIME_30MIN,
                                 is_rated=None)
         log.debug('after function call')
         # check the first 30 minutes
@@ -72,7 +70,7 @@ class Test:
                                 path_name=path,
                                 initial_time=initial_time,
                                 latest_time=initial_time +
-                                            time_30min,
+                                            TIME_30MIN,
                                 is_rated=None)
         log.debug('after function call')
         assert output == "From remote."
@@ -80,7 +78,7 @@ class Test:
                                 path_name=path,
                                 initial_time=initial_time,
                                 latest_time=initial_time +
-                                            time_30min,
+                                            TIME_30MIN,
                                 is_rated=None)
         assert output == "Specifications ignored. " \
                          "Reading from file."
