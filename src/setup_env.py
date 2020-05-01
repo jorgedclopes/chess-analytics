@@ -1,6 +1,6 @@
-from dotenv import load_dotenv
 import os
 import warnings
+from dotenv import load_dotenv
 
 
 def setup(path=None):

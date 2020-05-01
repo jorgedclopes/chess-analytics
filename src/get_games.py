@@ -1,8 +1,8 @@
 import os
-import lichess.api
 from pprint import pprint
-from src.setup_env import setup
 import datetime
+import lichess.api
+from src.setup_env import setup
 
 
 def convert_ms_to_date(time_in_ms):

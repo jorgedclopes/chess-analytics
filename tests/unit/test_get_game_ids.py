@@ -1,7 +1,7 @@
-from src.get_games import download_games
-import lichess
 import logging
 import os
+import lichess
+from src.get_games import download_games
 
 # this is not ideal but it works for now
 TIME_30MIN = 30 * 60 * 1000
