@@ -3,9 +3,9 @@
 """
 import ast
 import os
-import lichess.api
 from operator import itemgetter
-import json
+import lichess.api
+
 
 name = 'carequinha'
 user = lichess.api.user(name)

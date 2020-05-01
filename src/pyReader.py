@@ -1,6 +1,6 @@
-import pgn
 import sys
 import os
+import pgn
 
 
 def divide_by_tag(game_list, tag_name):
@@ -102,8 +102,8 @@ def print_win_loss_data():
     print(
         '---------+--------+--------+--------+--------+--------')
 
-    times_increasing = sorted(games_by_time.keys(),
-                              key=lambda time: eval(time))
+    # times_increasing = sorted(games_by_time.keys(),
+    #                           key=lambda time: eval(time))
     times_by_played = sorted(games_by_time.keys(),
                              key=lambda time: len(
                                  games_by_time[time]),
