@@ -1,4 +1,7 @@
-all: install approve docs
+all: install set_path approve docs
+
+set_path:
+	export PYTHONPATH=$(pwd)
 
 install:
 	pip3 install -r requirements.txt

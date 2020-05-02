@@ -1,9 +1,9 @@
-import sys
-import os
-import pgn
+import sys  # pragma: no cover
+import os  # pragma: no cover
+import pgn  # pragma: no cover
 
 
-def divide_by_tag(game_list, tag_name):
+def divide_by_tag(game_list, tag_name):  # pragma: no cover
     games_by_tag = {}
 
     for game in game_list:
@@ -16,7 +16,7 @@ def divide_by_tag(game_list, tag_name):
     return games_by_tag
 
 
-def list_tags(games_by_tag):
+def list_tags(games_by_tag):  # pragma: no cover
     max_width = max([len(tag) for tag in games_by_tag])
 
     for tag in games_by_tag:
@@ -25,7 +25,7 @@ def list_tags(games_by_tag):
             padding=' ', align='<', width=max_width + 2))
 
 
-def divide_by_result(game_list, username='DRNbw'):
+def divide_by_result(game_list, username='DRNbw'):  # pragma: no cover
     outcome = {'win': [], 'loss': [], 'draw': []}
 
     for game in game_list:
@@ -64,7 +64,7 @@ def divide_by_result(game_list, username='DRNbw'):
 # pgn_text = open(pgn_file).read()
 # pgn_game = pgn.PGNGame()
 # games = pgn.loads(pgn_text)
-def print_win_loss_data():
+def print_win_loss_data():  # pragma: no cover
     games = []
     folder = sys.argv[-1]
     for filename in os.listdir(folder):
@@ -136,5 +136,5 @@ def print_win_loss_data():
     print('\nDone')
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     print_win_loss_data()
