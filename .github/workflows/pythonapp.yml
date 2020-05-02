@@ -24,6 +24,7 @@ jobs:
       run: |
         python3 -m pip install --upgrade pip
         pip3 install pytest
+        pip3 install wheel
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with pylint
       run: |
@@ -31,6 +32,6 @@ jobs:
     - name: Test with pytest
       run: |
         make test
-    - name: Make documentation
+    - name: Check types with mypy
       run: |
-        make docs
+        make check-type
