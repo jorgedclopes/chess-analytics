@@ -1,4 +1,10 @@
+"""
+  This file has the function to fetch token from .env file.
+  Unless you are developing, there is no point in
+  calling this function.
+"""
 import os
+import warnings
 from pathlib import Path
 from pprint import pprint
 import datetime
@@ -7,6 +13,14 @@ from src.setup_env import setup
 
 
 def convert_ms_to_date(time_in_ms):
+    """Convert epoch time in ms to readable datetime format.
+
+    Args:
+        time_in_ms (str): current epoch time in ms.
+
+    Returns:
+        time (datetime): returns the time in a readable format.
+    """
     base_datetime = datetime.datetime(1970, 1, 1)
     delta = datetime.timedelta(0, 0, 0, time_in_ms)
     return base_datetime + delta
@@ -14,24 +28,57 @@ def convert_ms_to_date(time_in_ms):
 
 def save_to_file(game,
                  save_path):
+    """Save game in file.
+
+    Args:
+        game (str): data about one chess game.
+        save_path (str): Folder in which the game will be saved.
+
+    Returns:
+        None
+    """
     filename = save_path + '/' + game['id'] + '.pgn'
     with open(filename, 'w') as file:
         file.write(str(game))
 
 
 def download_games(name,
-                   path_name='resources/game_ids.dat',
                    db_dir='resources/PGN_database',
                    pref_type=None,
                    initial_time=None,
                    latest_time=None,
                    is_rated=True,
-                   ):
+                   ) -> None:
+    """Function to fetch token from .env file.
 
-    Path(db_dir).mkdir(parents=True, exist_ok=True)
-    if os.path.exists(path_name):
-        print(path_name + ' exists. Reading this file.')
-        return "Specifications ignored. Reading from file."
+    Args:
+        name (str): Path to .env file with lichess token.
+        db_dir (str): Setup and make folder if it doesn't
+            already exist. Default = resources/PGN_database
+        pref_type (str): filter time control
+            to download.
+            To download all several types,
+            provide them as a list.
+            Default = None
+        initial_time (int): beginning of window
+            to download games.
+            Default: beginning of user account.
+        latest_time (int): end of window
+            to download games.
+            Default: latest account update time.
+        is_rated (bool): filter rated games.
+            Default: True (Rated only)
+
+    Returns:
+        None
+    """
+
+    if os.path.isdir(db_dir):
+        warnings.warn('PGN database already downloaded.',
+                      ResourceWarning)
+        return
+
+    Path(db_dir).mkdir(parents=True, exist_ok=False)
 
     user = lichess.api.user(name)
 
@@ -83,10 +130,11 @@ def download_games(name,
                       (time_index - initial_time) / increment,
                       game_len))
 
-    with open(path_name, 'w') as f:
-        for game in games_list:
-            f.writelines(game['id'])
-            save_to_file(game, db_dir)
+    for game in games_list:
+        save_to_file(game, db_dir)
 
-    return "From remote."
 
+if __name__ == '__main__':  # pragma: no cover
+    download_games('carequinha',
+                   pref_type='blitz',
+                   is_rated=True)
