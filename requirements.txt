@@ -8,4 +8,4 @@ pylint
 pgnparser
 coverage
 pytest-cov
-
+mypy
