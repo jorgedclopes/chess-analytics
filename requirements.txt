@@ -3,3 +3,9 @@ python-lichess
 python-chess
 jupyterlab
 pytest
+pdoc3
+pylint
+pgnparser
+coverage
+pytest-cov
+mypy
