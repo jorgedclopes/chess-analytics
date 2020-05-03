@@ -1,17 +1,24 @@
 """
-    This script takes data available locally and produces some results.
+    This script loads data available locally.
+    This function is to be used as:
+
+    from src.load_games import get_games
+    games = get_games('resources/game_ids.dat')
 """
 import ast
 import os
+import warnings
 from operator import itemgetter
-import lichess.api
-
-
-name = 'carequinha'
-user = lichess.api.user(name)
 
 
 def load_games(file):
+    """Loads the games available locally.
+
+    Args: file (str): Path to .env file with lichess token.
+
+    Returns: games (list[dict]):
+
+    """
     with open(os.path.join(os.getcwd(),
                            file), 'r') as f:
         game_id_list = f.readlines()
@@ -31,4 +38,7 @@ def load_games(file):
 
     games = sorted(games,
                    key=itemgetter('createdAt'))  # [:20]
+
+    if len(games) is 0:
+        warnings.warn("No token loaded.", ResourceWarning)
     return games

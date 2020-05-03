@@ -1,13 +1,27 @@
+"""
+  This file has the function to fetch token from .env file.
+  Unless you are developing, there is no point in
+  calling this function.
+"""
 import os
 import warnings
 from dotenv import load_dotenv
 
 
-def setup(path=None):
-    env_var = 'lichess_token'
-    DB_dir = 'resources/PGN_database'
-    if not os.path.isdir(DB_dir):
-        os.makedirs(DB_dir)
+def setup(path: str = None,
+          env_var: str = 'lichess_token',
+          db_dir: str = 'resources/PGN_database'):
+    """Function to fetch token from .env file.
+
+    Args: path (str): Path to .env file with lichess token.
+
+    Returns: token (str): Token from lichess account to connect
+    to API.
+
+    """
+
+    if not os.path.isdir(db_dir):
+        os.makedirs(db_dir)
     if path is not None:
         path = os.path.join(path, '.env')
     os.environ.clear()

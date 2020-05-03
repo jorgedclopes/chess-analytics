@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from pprint import pprint
 import datetime
 import lichess.api
@@ -12,7 +13,7 @@ def convert_ms_to_date(time_in_ms):
 
 
 def save_to_file(game,
-                 save_path='resources/PGN_database'):
+                 save_path):
     filename = save_path + '/' + game['id'] + '.pgn'
     with open(filename, 'w') as file:
         file.write(str(game))
@@ -20,12 +21,14 @@ def save_to_file(game,
 
 def download_games(name,
                    path_name='resources/game_ids.dat',
+                   db_dir='resources/PGN_database',
                    pref_type=None,
                    initial_time=None,
                    latest_time=None,
                    is_rated=True,
                    ):
 
+    Path(db_dir).mkdir(parents=True, exist_ok=True)
     if os.path.exists(path_name):
         print(path_name + ' exists. Reading this file.')
         return "Specifications ignored. Reading from file."
@@ -80,17 +83,10 @@ def download_games(name,
                       (time_index - initial_time) / increment,
                       game_len))
 
-        if game_len >= len_total_games:
-            break
-
     with open(path_name, 'w') as f:
         for game in games_list:
             f.writelines(game['id'])
-            save_to_file(game)
+            save_to_file(game, db_dir)
 
     return "From remote."
 
-
-if __name__ == "__main__":
-    download_games('carequinha',
-                   is_rated=True)
