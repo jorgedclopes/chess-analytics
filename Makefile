@@ -4,8 +4,8 @@ install:
 	pip3 install -r requirements.txt
 
 lint:
-	pylint --rcfile=.pylintrc src || true
-	pylint --rcfile=.pylintrc tests/unit || true
+	pylint --rcfile=.pylintrc src
+	pylint --rcfile=.pylintrc tests/unit
 
 docs:
 	pdoc3 --html --force --output-dir docs src

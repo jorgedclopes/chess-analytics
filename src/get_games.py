@@ -12,11 +12,11 @@ import lichess.api
 from src.setup_env import setup
 
 
-def convert_ms_to_date(time_in_ms):
+def convert_ms_to_date(time_in_ms: int):
     """Convert epoch time in ms to readable datetime format.
 
     Args:
-        time_in_ms (str): current epoch time in ms.
+        time_in_ms (int): current epoch time in ms.
 
     Returns:
         time (datetime): returns the time in a readable format.
@@ -46,8 +46,7 @@ def download_games(name,
                    db_dir='resources/PGN_database',
                    pref_type=None,
                    initial_time=None,
-                   latest_time=None,
-                   is_rated=True,
+                   latest_time=None
                    ) -> None:
     """Function to fetch token from .env file.
 
@@ -119,7 +118,6 @@ def download_games(name,
             perfType=pref_type,
             since=time_index,
             until=time_index + increment,
-            rated=is_rated,
             auth=token
         )
 
@@ -136,5 +134,4 @@ def download_games(name,
 
 if __name__ == '__main__':  # pragma: no cover
     download_games('carequinha',
-                   pref_type='blitz',
-                   is_rated=True)
+                   pref_type='blitz')
