@@ -3,38 +3,53 @@
 # This program works as of 5/05/2020
 
 
-import urllib
+import glob
+import os
 import urllib.request
-import glob, os
-
-username = "mythaar" #change
-path_to_directory = "/Users/student/Desktop/pgn_downloads/" #change -> where the files will be downloaded
-new_file_name = 'all_games.pgn' #change
-baseUrl = "https://api.chess.com/pub/player/" + username + "/games/"
-archivesUrl = baseUrl + "archives"
-
-#read the archives url and store in a list
-
-f = urllib.request.urlopen(archivesUrl)
-archives = f.read().decode("utf-8")
-archives = archives.replace("{\"archives\":[\"", "\",\"")
-archivesList = archives.split("\",\"" + baseUrl)
-archivesList[len(archivesList)-1] = archivesList[len(archivesList)-1].rstrip("\"]}")
-
-#download all the archives
-for i in range(len(archivesList)-1):
-    url = baseUrl + archivesList[i+1] + "/pgn"
-    filename = archivesList[i+1].replace("/", "-")
-    urllib.request.urlretrieve(url, path_to_directory + filename + ".pgn") #change
+from ast import literal_eval
+from pathlib import Path
+from pprint import pprint
 
 
-os.chdir(path_to_directory)
+def get_chess_dot_com_games(
+    username: str = "mythaar",
+    path: str = "resources/chessdotcom_pgn_downloads/",
+    new_file_name: str = 'all_games.pgn'
+):
+    Path(path).mkdir(parents=True,
+                     exist_ok=True)
+    base_url = "https://api.chess.com/pub/player/" + \
+               username + \
+               "/games/"
+    archives_url = base_url + "archives"
+
+    # read the archives url and store in a list
+
+    f = urllib.request.urlopen(archives_url)
+    read_f = f.read().decode("utf-8")
+    archives_list = list(
+        map(lambda x: x.split('games/')[-1],
+            list(literal_eval(read_f).values())[0]))
+
+    # pprint("archives")
+    # pprint(literal_eval(read_f).values())
+    # pprint(list(literal_eval(read_f).values())[0])
+    # pprint(archives_list)
+
+    # download all the archives
+    for archive in archives_list:
+        url = base_url + archive + "/pgn"
+        filename = archive.replace("/", "-")
+        urllib.request\
+              .urlretrieve(url,
+                           path + filename + ".pgn")
+
+    with open(path + new_file_name, 'w') as outfile:
+        for fname in glob.glob(path + "20*.pgn"):
+            with open(fname) as infile:
+                outfile.write(infile.read())
+            os.remove(fname)
 
 
-filenames = []
-for file in glob.glob("*.pgn"):
-    filenames.append(file)
-with open(path_to_directory+new_file_name, 'w') as outfile:
-    for fname in filenames:
-        with open(fname) as infile:
-            outfile.write(infile.read())
+if __name__ == '__main__':  # pragma: no cover
+    get_chess_dot_com_games()
