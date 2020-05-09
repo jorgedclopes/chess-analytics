@@ -8,7 +8,6 @@ import os
 import urllib.request
 from ast import literal_eval
 from pathlib import Path
-from pprint import pprint
 
 
 def get_chess_dot_com_games(
