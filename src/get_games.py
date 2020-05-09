@@ -13,13 +13,17 @@ from src.setup_env import setup
 
 
 def convert_ms_to_date(time_in_ms: int):
-    """Convert epoch time in ms to readable datetime format.
+    """
+    Convert epoch time in ms to readable datetime format.
 
-    Args:
-        time_in_ms (int): current epoch time in ms.
+    Parameters
+    ----------
+        time_in_ms (int) : current epoch time in ms.
 
-    Returns:
-        time (datetime): returns the time in a readable format.
+    Returns
+    -------
+        Datetime
+            Time in a readable format.
     """
     base_datetime = datetime.datetime(1970, 1, 1)
     delta = datetime.timedelta(0, 0, 0, time_in_ms)
@@ -30,11 +34,15 @@ def save_to_file(game,
                  save_path):
     """Save game in file.
 
-    Args:
-        game (str): data about one chess game.
-        save_path (str): Folder in which the game will be saved.
+    Parameters
+    ----------
+        game : str
+            Data about one chess game.
+        save_path : str
+            Folder in which the game will be saved.
 
-    Returns:
+    Returns
+    -------
         None
     """
     filename = save_path + '/' + game['id'] + '.pgn'
@@ -48,27 +56,30 @@ def download_games(name,
                    initial_time=None,
                    latest_time=None
                    ) -> None:
-    """Function to fetch token from .env file.
+    """
+    Function to fetch token from .env file.
 
-    Args:
-        name (str): Path to .env file with lichess token.
-        db_dir (str): Setup and make folder if it doesn't
+    Parameters
+    ----------
+        name : str
+            Path to .env file with lichess token.
+        db_dir : str
+            Setup and make folder if it doesn't
             already exist. Default = resources/PGN_database
-        pref_type (str): filter time control
-            to download.
+        pref_type : str
+            filter time control to download.
             To download all several types,
             provide them as a list.
             Default = None
-        initial_time (int): beginning of window
-            to download games.
+        initial_time : str
+            beginning of window to download games.
             Default: beginning of user account.
-        latest_time (int): end of window
-            to download games.
+        latest_time : str
+            end of window to download games.
             Default: latest account update time.
-        is_rated (bool): filter rated games.
-            Default: True (Rated only)
 
-    Returns:
+    Returns
+    -------
         None
     """
 
