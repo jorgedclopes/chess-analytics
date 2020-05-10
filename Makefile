@@ -7,7 +7,7 @@ lint:
 	pylint --rcfile=.pylintrc src
 	pylint --rcfile=.pylintrc tests/unit
 
-docs:
+docs: cleandocs
 	pdoc3 --html --force --output-dir docs src
 
 test:
@@ -18,3 +18,6 @@ check-type:
 	mypy --ignore-missing-imports tests/unit
 
 approve: check-type lint test
+
+cleandocs:
+	rm -rf docs

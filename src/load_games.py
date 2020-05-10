@@ -15,18 +15,23 @@ def load_games(path: str = 'resources/PGN_database',
                is_rated: bool = None):
     """Loads the games available locally.
 
-    Args:
-        :param path: (str) : path to games database folder.
+    Parameters
+    ----------
+        path : str
+            path to games database folder.
             Default: resources/PGN_database
 
-        :param is_rated: bool : filter rated games.
+        is_rated : bool
+            filter rated games.
             {True -> only rated,
              False -> only casual,
              None -> all games}
             Default: None
 
-    Returns:
-        games (list[dict]): list of games in DB, sorted by date.
+    Returns
+    -------
+        List[dict]
+            list of games in DB, sorted by date.
 
     """
 
@@ -38,7 +43,7 @@ def load_games(path: str = 'resources/PGN_database',
             games.append(ind_game)
 
     games = sorted(games,
-                   key=itemgetter('createdAt'))  # [:20]
+                   key=itemgetter('createdAt'))
 
     if is_rated is None:
         game_list = games

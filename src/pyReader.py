@@ -69,8 +69,8 @@ def print_win_loss_data():  # pragma: no cover
     folder = sys.argv[-1]
     for filename in os.listdir(folder):
         with open(folder + "/" + filename) as f:
-            pgnGame = pgn.loads(f.read())[0]
-            games.append(pgnGame)
+            pgn_game = pgn.loads(f.read())[0]
+            games.append(pgn_game)
 
     # print(games)
 
@@ -105,8 +105,8 @@ def print_win_loss_data():  # pragma: no cover
     # times_increasing = sorted(games_by_time.keys(),
     #                           key=lambda time: eval(time))
     times_by_played = sorted(games_by_time.keys(),
-                             key=lambda time: len(
-                                 games_by_time[time]),
+                             key=lambda game_time: len(
+                                 games_by_time[game_time]),
                              reverse=True)
 
     for time in times_by_played:
