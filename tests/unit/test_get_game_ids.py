@@ -49,7 +49,9 @@ class TestDownload:
         shutil.rmtree(db_test_dir)
         assert len(w) == 2
         assert len(game_id_list) == 2
-        assert game_id_list == ['OwUkcBo7.pgn', 'urC8tV4n.pgn']
+        expected = sorted(['OwUkcBo7.pgn', 'urC8tV4n.pgn'])
+        actual = sorted(game_id_list)
+        assert expected == actual
 
     def test_initial_time_default_arguments(self):
         user = lichess.api.user('carequinha')
