@@ -12,8 +12,8 @@ from pathlib import Path
 
 def get_chess_dot_com_games(
     username: str = "mythaar",
-    path: str = "resources/chessdotcom_pgn_downloads/",
-    new_file_name: str = 'all_games.pgn'
+    path: str = "resources/",
+    new_file_name: str = 'chessdotcom_games.pgn'
 ):
     Path(path).mkdir(parents=True,
                      exist_ok=True)
