@@ -11,7 +11,7 @@ docs: cleandocs
 	pdoc3 --html --force --output-dir docs src
 
 test:
-	python3 -m pytest --cov-report html --cov=src -vv
+	python3 -m pytest --cov-report html --cov=src -vv #--maxfail=1
 
 check-type:
 	mypy --ignore-missing-imports src

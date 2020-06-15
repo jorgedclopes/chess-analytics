@@ -9,6 +9,8 @@ from pathlib import Path
 from pprint import pprint
 import datetime
 import lichess.api
+from lichess.format import SINGLE_PGN
+
 from src.setup_env import setup
 
 
@@ -30,28 +32,8 @@ def convert_ms_to_date(time_in_ms: int):
     return base_datetime + delta
 
 
-def save_to_file(game,
-                 save_path):
-    """Save game in file.
-
-    Parameters
-    ----------
-        game : str
-            Data about one chess game.
-        save_path : str
-            Folder in which the game will be saved.
-
-    Returns
-    -------
-        None
-    """
-    filename = save_path + '/' + game['id'] + '.pgn'
-    with open(filename, 'w') as file:
-        file.write(str(game))
-
-
 def download_games(name,
-                   db_dir='resources/PGN_database',
+                   dest_file='resources/database.pgn',
                    pref_type=None,
                    initial_time=None,
                    latest_time=None
@@ -63,9 +45,9 @@ def download_games(name,
     ----------
         name : str
             Path to .env file with lichess token.
-        db_dir : str
+        dest_file : str
             Setup and make folder if it doesn't
-            already exist. Default = resources/PGN_database
+            already exist. Default = resources/database.pgn
         pref_type : str
             filter time control to download.
             To download all several types,
@@ -83,12 +65,10 @@ def download_games(name,
         None
     """
 
-    if os.path.isdir(db_dir):
+    if os.path.exists(dest_file):
         warnings.warn('PGN database already downloaded.',
                       ResourceWarning)
         return
-
-    Path(db_dir).mkdir(parents=True, exist_ok=False)
 
     user = lichess.api.user(name)
 
@@ -129,7 +109,8 @@ def download_games(name,
             perfType=pref_type,
             since=time_index,
             until=time_index + increment,
-            auth=token
+            auth=token,
+            format=SINGLE_PGN
         )
 
         games_list += list(games_generator)
@@ -140,7 +121,8 @@ def download_games(name,
                       game_len))
 
     for game in games_list:
-        save_to_file(game, db_dir)
+        with open(dest_file, 'a') as file:
+            file.write(str(game))
 
 
 if __name__ == '__main__':  # pragma: no cover

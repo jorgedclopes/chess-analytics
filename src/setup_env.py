@@ -10,8 +10,7 @@ from dotenv import load_dotenv
 
 
 def setup(path: str = None,
-          env_var: str = 'lichess_token',
-          db_dir: str = 'resources/PGN_database'):
+          env_var: str = 'lichess_token'):
     """
     Function to fetch token from .env file.
 
@@ -21,8 +20,6 @@ def setup(path: str = None,
             Path to .env file with lichess token.
         env_var : str
             Name of the variable to import.
-        db_dir : str
-            Setup and make folder if it does not already exist.
 
     Returns
     -------
@@ -31,8 +28,6 @@ def setup(path: str = None,
 
     """
 
-    if not os.path.isdir(db_dir):
-        os.makedirs(db_dir)
     if path is not None:
         path = os.path.join(path, '.env')
     os.environ.clear()

@@ -18,10 +18,3 @@ class TestSetup:
         assert isinstance(token, str)
         # checks if the string is not empty
         assert token is not False
-
-    def test_no_dir(self):
-        temp_dir = 'resources/temp_test_dir/'
-        setup(path='resources/',
-              db_dir=temp_dir)
-        assert os.path.isdir(temp_dir)
-        shutil.rmtree(temp_dir)
