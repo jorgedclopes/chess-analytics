@@ -8,12 +8,24 @@
 import os
 import warnings
 from operator import itemgetter
+import collections
 
 import chess.pgn
 
 
-def flatten(arg_list):
+def flatten_list(arg_list):
     return [item for sublist in arg_list for item in sublist]
+
+
+def flatten_dict(arg_dict):
+    items = []
+    for k, v in arg_dict.items():
+        new_key = k
+        if isinstance(v, collections.MutableMapping):
+            items.extend(flatten_dict(v).items())
+        else:
+            items.append((new_key, v))
+    return dict(items)
 
 
 def load_games(path: str = 'resources/',
@@ -42,16 +54,16 @@ def load_games(path: str = 'resources/',
 
     fname = None
     if os.path.isdir(path):
-        fname = flatten(list(map(lambda x:
+        fname = flatten_list(list(map(lambda x:
                                  list(map(lambda y:
                                           os.path.join(x[0], y),
                                           x[2])),
-                                 os.walk(path))))
+                                      os.walk(path))))
 
     elif os.path.exists(path):
         fname = [path]
 
-    flatten(fname)
+    flatten_list(fname)
     print(fname)
 
     games = list()
