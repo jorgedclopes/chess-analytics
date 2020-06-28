@@ -1,5 +1,3 @@
-import os
-import shutil
 import warnings
 import pytest
 from src.setup_env import setup
