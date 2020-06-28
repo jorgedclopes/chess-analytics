@@ -14,11 +14,37 @@ import chess.pgn
 
 
 def flatten_list(arg_list):
+    """Flattens a list completely.
+
+    Parameters
+    ----------
+        arg_list : list[list[...]]
+            nested list
+
+    Returns
+    -------
+        list[...]
+            flattened list of games in list.
+
+    """
     return [item for sublist in arg_list
             for item in sublist]
 
 
 def flatten_dict(arg_dict):
+    """Flattens a dictionary completely.
+
+        Parameters
+        ----------
+            arg_dict : dict[dict[...]]
+                nested list
+
+        Returns
+        -------
+            dict[...]
+                flattened dict of games in list.
+
+    """
     items = []
     for k, v in arg_dict.items():
         new_key = k

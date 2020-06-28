@@ -1,7 +1,9 @@
 # chess.com API -> https://www.chess.com/news/view/published-data-api
 # The API has been used to download monthly archives for a user using a Python3 program.
 # This program works as of 5/05/2020
-
+"""
+  This file has functions to fetch the games from chess.com
+"""
 
 import glob
 import os
@@ -15,6 +17,21 @@ def get_chess_dot_com_games(
     path: str = "resources/",
     new_file_name: str = 'chessdotcom_games.pgn'
 ):
+    """Flattens a list completely.
+
+        Parameters
+        ----------
+            username : list[list[...]]
+                nested list
+            path: str
+                path to write file with games
+            new_file_name: str
+                name of the file with games
+
+        Returns
+        -------
+            None
+    """
     Path(path).mkdir(parents=True,
                      exist_ok=True)
     base_url = "https://api.chess.com/pub/player/" + \

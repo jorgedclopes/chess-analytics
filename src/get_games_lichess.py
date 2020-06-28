@@ -1,7 +1,5 @@
 """
-  This file has the function to fetch token from .env file.
-  Unless you are developing, there is no point in
-  calling this function.
+  This file has functions to fetch the games from lichess.org
 """
 import os
 import warnings

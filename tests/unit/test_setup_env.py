@@ -17,4 +17,4 @@ class TestSetup:
         token = setup(path='resources/')
         assert isinstance(token, str)
         # checks if the string is not empty
-        assert token is not False
+        assert token is True

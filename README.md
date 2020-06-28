@@ -1,3 +1,4 @@
+![Python application](https://github.com/jorgedclopes/chess-analytics/workflows/Python%20application/badge.svg?branch=master)
 ## chess-analytics
 
 This project has the intention of analysing the history of a player and draw some conclusions on the person's play style.
