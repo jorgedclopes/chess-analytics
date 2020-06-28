@@ -71,7 +71,7 @@ def load_games(path: str = 'resources/'):
 
     """
 
-    fname = None
+    fname = []
     if os.path.isdir(path):
         fname = flatten_list(
             list(
@@ -83,8 +83,6 @@ def load_games(path: str = 'resources/'):
 
     elif os.path.exists(path):
         fname = [path]
-
-    flatten_list(fname)
 
     games = list()
     for file in fname:
