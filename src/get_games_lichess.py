@@ -3,7 +3,6 @@
 """
 import os
 import warnings
-from pathlib import Path
 from pprint import pprint
 import datetime
 import lichess.api
