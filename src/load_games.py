@@ -14,7 +14,8 @@ import chess.pgn
 
 
 def flatten_list(arg_list):
-    return [item for sublist in arg_list for item in sublist]
+    return [item for sublist in arg_list
+            for item in sublist]
 
 
 def flatten_dict(arg_dict):
@@ -28,8 +29,7 @@ def flatten_dict(arg_dict):
     return dict(items)
 
 
-def load_games(path: str = 'resources/',
-               is_rated: bool = None):
+def load_games(path: str = 'resources/'):
     """Loads the games available locally.
 
     Parameters
@@ -37,13 +37,6 @@ def load_games(path: str = 'resources/',
         path : str
             path to games database folder.
             Default: resources/PGN_database
-
-        is_rated : bool
-            filter rated games.
-            {True -> only rated,
-             False -> only casual,
-             None -> all games}
-            Default: None
 
     Returns
     -------
@@ -54,17 +47,18 @@ def load_games(path: str = 'resources/',
 
     fname = None
     if os.path.isdir(path):
-        fname = flatten_list(list(map(lambda x:
-                                 list(map(lambda y:
-                                          os.path.join(x[0], y),
-                                          x[2])),
-                                      os.walk(path))))
+        fname = flatten_list(
+            list(
+                map(lambda x:
+                    list(map(lambda y:
+                             os.path.join(x[0], y), x[2])),
+                    os.walk(path)))
+        )
 
     elif os.path.exists(path):
         fname = [path]
 
     flatten_list(fname)
-    print(fname)
 
     games = list()
     for file in fname:
@@ -73,9 +67,12 @@ def load_games(path: str = 'resources/',
                 game = chess.pgn.read_game(f)
                 if game is None:
                     break
-                games.append(game)
+                game_dict = flatten_dict(game.headers.__dict__)
+                game_dict["moves"] = \
+                    [move.__str__()
+                     for move in game.mainline_moves()]
+                games.append(game_dict)
 
-    print(games[0])
     games = sorted(games,
                    key=itemgetter('UTCDate'))
 
