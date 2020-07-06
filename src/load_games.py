@@ -71,22 +71,13 @@ def load_games(path: str = 'resources/'):
 
     """
 
-    fname = []
-    if os.path.isdir(path):
-        fname = flatten_list(
-            list(
-                map(lambda x:
-                    list(map(lambda y:
-                             os.path.join(x[0], y), x[2])),
-                    os.walk(path)))
-        )
-
-    elif os.path.exists(path):
-        fname = [path]
+    file_names = [os.path.join(folder, file)
+                 for folder, children, files in os.walk(path)
+                 for file in files]
 
     games = list()
-    for file in fname:
-        with open(file, 'r') as f:
+    for filename in file_names:
+        with open(filename, 'r') as f:
             while True:
                 game = chess.pgn.read_game(f)
                 if game is None:
