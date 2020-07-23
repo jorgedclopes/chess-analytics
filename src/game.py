@@ -1,5 +1,4 @@
 import pgn
-import json
 
 
 class ChessPlayer():
@@ -10,31 +9,90 @@ class ChessPlayer():
         if rating is not None:
             self.rating = rating
 
+    def __str__(self):
+        return f'{self.name} ({self.rating})'
+
 
 class ChessGame():
     def __init__(self):
-        self.rated = None
-        self.variant = None
-        self.speed = None
-        self.status = None
+        # General Game Information
         self.site = None
         self.date = None
-
-        # TODO generic number of players? (4 player chess on chess.com...)
-        self.white = None
-        self.black = None
-
-        self.winner = None
-
-        # TODO time control as string or
+        # self.rated = None     ## PGN does not have this information
+        self.variant = None
+        # self.speed = None     ## PGN does not have this information
         self.timecontrol = None
+        self.termination = None
+
+        # Players, see class ChessPlayer
+        self.players = {}
+        self.result = None
+
+        # Moves
+        self.moves = None
+        self.ply = 0
+        self.turns = 0
+        self.eco = None
+
+        # Extra Info
+        # self.stage_at_end = None      ## Ended at opening/midgame/endgame?
 
     def __str__(self):
-        return f'{"Rated" if self.rated else "Unrated"} {self.variant} {self.speed}'
+        return (
+            f'{self.variant} game between '
+            f'{self.players["white"]} and {self.players["black"]}'
+        )
 
     @staticmethod
-    def load_from_pgn_game(pgn_string):
-        return pgn.loads(pgn_string)
+    def load_pgn_file(filepath):
+        with open(filepath, 'r') as f:
+            games = ChessGame.load_all_from_pgn(f.read())
+
+        return games
+
+    @staticmethod
+    def load_all_from_pgn(pgn_string):
+        games = [
+            ChessGame.load_from_pgn_game(pgn_game)
+            for pgn_game in pgn.loads(pgn_string)
+        ]
+
+        return games
+
+    @staticmethod
+    def load_from_pgn_game(pgn_game):
+        """
+        Game class from library attributes:
+            'event', 'site', 'date', 'round', 'white', 'black',
+            'result', 'annotator', 'plycount', 'timecontrol', 'time',
+            'termination', 'mode', 'fen', 'moves', 'utcdate', 'utctime',
+            'whiteelo', 'blackelo', 'whiteratingdiff', 'blackratingdiff',
+            'variant', 'eco'
+        """
+
+        new_game = ChessGame()
+
+        common_attributes = [
+            'site', 'date', 'variant', 'timecontrol', 'termination',
+            'eco', 'moves', 'result'
+        ]
+        for attr in common_attributes:
+            new_game.__setattr__(attr, pgn_game.__getattribute__(attr))
+
+        # Last move is the result
+        new_game.moves.pop()
+
+        # Players, see class ChessPlayer
+        new_game.players = {
+            'white': ChessPlayer(pgn_game.white, pgn_game.whiteelo),
+            'black': ChessPlayer(pgn_game.black, pgn_game.blackelo),
+        }
+
+        # Moves
+        new_game.ply = len(new_game.moves)
+        new_game.turns = (new_game.ply + 1)//2
+
+        return new_game
 
     @staticmethod
     def load_from_json(json_dict, source='lichess'):
