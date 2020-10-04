@@ -13,23 +13,6 @@ TIME_30MIN = 30 * 60 * 1000
 
 
 class TestDownload:
-
-    # def test_no_game_ids(self):
-    #     log = logging.getLogger('test_no_game_ids')
-    #     user = lichess.api.user('carequinha')
-    #     initial_time = user['createdAt']
-    #     final_time = initial_time + TIME_30MIN
-    #     log.debug('before function call')
-    #     output = download_games(name='carequinha',
-    #                             initial_time=initial_time,
-    #                             latest_time=final_time,
-    #                             is_rated=None)
-    #     log.debug('after function call')
-    #     # check the first 30 minutes
-    #     assert output == "From remote."
-    #     game_id_list = os.listdir('resources/PGN_database')
-    #     assert len(game_id_list) == 2
-
     def test_no_game_ids_with_particular_pref_type(self):
         log = logging.getLogger('test_no_game_ids')
         user = lichess.api.user('carequinha')
@@ -75,8 +58,8 @@ class TestDownload:
         game_id_list = os.listdir(db_test_dir)
         shutil.rmtree(db_test_dir)
         assert len(w) == 2
-        assert len(game_id_list) == 2
-        assert game_id_list == ['OwUkcBo7.pgn', 'urC8tV4n.pgn']
+        assert len(game_id_list) == 1
+        assert game_id_list == ['carequinha.pgn']
 
     def test_initial_time_default_arguments(self):
         log = logging.getLogger('test_no_game_ids')

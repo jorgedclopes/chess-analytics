@@ -10,13 +10,14 @@ from pprint import pprint
 import datetime
 import lichess.api
 from src.setup_env import setup
+from lichess.format import SINGLE_PGN
 
 
 def convert_ms_to_date(time_in_ms):
     """Convert epoch time in ms to readable datetime format.
 
     Args:
-        time_in_ms (str): current epoch time in ms.
+        time_in_ms (int): current epoch time in ms.
 
     Returns:
         time (datetime): returns the time in a readable format.
@@ -27,34 +28,36 @@ def convert_ms_to_date(time_in_ms):
 
 
 def save_to_file(game,
-                 save_path):
+                 save_dir,
+                 save_file):
     """Save game in file.
 
     Args:
-        game (str): data about one chess game.
-        save_path (str): Folder in which the game will be saved.
-
+        game (list): data about all downloaded chess games.
+        save_dir (str): Folder in which the games will be saved.
+        save_file (str): File in which the games will be saved.
     Returns:
         None
+
     """
-    filename = save_path + '/' + game['id'] + '.pgn'
+    filename = os.path.join(save_dir, save_file + '.pgn')
     with open(filename, 'w') as file:
-        file.write(str(game))
+        file.write("".join(game))
 
 
-def download_games(name,
-                   db_dir='resources/PGN_database',
-                   pref_type=None,
-                   initial_time=None,
-                   latest_time=None,
-                   is_rated=True,
+def download_games(name: str,
+                   db_dir: str = 'resources',
+                   pref_type: str = None,
+                   initial_time: str = None,
+                   latest_time: str = None,
+                   is_rated: str = True,
                    ) -> None:
     """Function to fetch token from .env file.
 
     Args:
         name (str): Path to .env file with lichess token.
         db_dir (str): Setup and make folder if it doesn't
-            already exist. Default = resources/PGN_database
+            already exist. Default = resources
         pref_type (str): filter time control
             to download.
             To download all several types,
@@ -73,12 +76,13 @@ def download_games(name,
         None
     """
 
-    if os.path.isdir(db_dir):
+    if os.path.exists(os.path.join(db_dir, name + ".pgn")):
         warnings.warn('PGN database already downloaded.',
                       ResourceWarning)
         return
 
-    Path(db_dir).mkdir(parents=True, exist_ok=False)
+    if not os.path.isdir(db_dir):
+        Path(db_dir).mkdir(parents=True, exist_ok=False)
 
     user = lichess.api.user(name)
 
@@ -109,6 +113,7 @@ def download_games(name,
 
     time_30min = 30 * 60 * 1000
     increment = max([int(delta_time / 100), time_30min])
+    latest_time = initial_time + 2 * increment
     for time_index in range(initial_time,
                             latest_time,
                             increment):
@@ -120,6 +125,7 @@ def download_games(name,
             since=time_index,
             until=time_index + increment,
             rated=is_rated,
+            format=SINGLE_PGN,
             auth=token
         )
 
@@ -130,11 +136,11 @@ def download_games(name,
                       (time_index - initial_time) / increment,
                       game_len))
 
-    for game in games_list:
-        save_to_file(game, db_dir)
+    save_to_file(games_list, db_dir, name)
+    # for game in games_list:
+    #     save_to_file(game, db_dir)
 
 
 if __name__ == '__main__':  # pragma: no cover
     download_games('carequinha',
-                   pref_type='blitz',
                    is_rated=True)

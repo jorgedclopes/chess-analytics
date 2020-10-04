@@ -13,8 +13,7 @@ from dotenv import load_dotenv
 
 
 def setup(path: str = None,
-          env_var: str = 'lichess_token',
-          db_dir: str = 'resources/PGN_database'):
+          env_var: str = 'lichess_token'):
     """Function to fetch token from .env file.
 
     Args:
@@ -28,8 +27,6 @@ def setup(path: str = None,
     to API.
     """
 
-    if not os.path.isdir(db_dir):
-        os.makedirs(db_dir)
     if path is not None:
         path = os.path.join(path, '.env')
     os.environ.clear()

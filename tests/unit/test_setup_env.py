@@ -21,7 +21,5 @@ class TestSetup:
 
     def test_no_dir(self):
         temp_dir = 'resources/temp_test_dir/'
-        setup(path='resources/',
-              db_dir=temp_dir)
-        assert os.path.isdir(temp_dir)
-        shutil.rmtree(temp_dir)
+        token = setup(path=temp_dir)
+        assert token is None

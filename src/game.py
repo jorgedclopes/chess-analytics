@@ -1,7 +1,7 @@
 import pgn
 
 
-class ChessPlayer():
+class ChessPlayer:
     def __init__(self, name, rating=None):
         self.name = name
 
@@ -13,7 +13,7 @@ class ChessPlayer():
         return f'{self.name} ({self.rating})'
 
 
-class ChessGame():
+class ChessGame:
     def __init__(self):
         # General Game Information
         self.site = None
@@ -74,7 +74,7 @@ class ChessGame():
 
         common_attributes = [
             'site', 'date', 'variant', 'timecontrol', 'termination',
-            'eco', 'moves', 'result'
+            'eco', 'moves', 'result', 'termination'
         ]
         for attr in common_attributes:
             new_game.__setattr__(attr, pgn_game.__getattribute__(attr))
@@ -90,7 +90,7 @@ class ChessGame():
 
         # Moves
         new_game.ply = len(new_game.moves)
-        new_game.turns = (new_game.ply + 1)//2
+        new_game.turns = (new_game.ply + 1) // 2
 
         return new_game
 
@@ -121,3 +121,13 @@ class ChessGame():
         # new_game.moves = []
 
         return new_game
+
+    def get_result(self):
+        if ((self.players['white'].name == "carequinha" and self.result == "1-0") or
+                (self.players['black'].name == "carequinha" and self.result == "0-1")):
+            return "WIN"
+        elif ((self.players['white'].name == "carequinha" and self.result == "0-1") or
+                (self.players['black'].name == "carequinha" and self.result == "1-0")):
+            return "LOSS"
+        elif self.result == "1/2-1/2":
+            return "DRAW"
