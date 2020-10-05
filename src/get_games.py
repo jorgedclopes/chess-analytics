@@ -51,8 +51,8 @@ def save_to_file(game,
 def download_games(name: str,
                    db_dir: str = 'resources',
                    pref_type: str = None,
-                   initial_time: str = None,
-                   latest_time: str = None,
+                   initial_time: int = None,
+                   latest_time: int = None,
                    is_rated: bool = True,
                    ) -> None:
     """Function to fetch token from .env file.
@@ -65,10 +65,10 @@ def download_games(name: str,
             To download all several types,
             provide them as a list.
             Default = None
-        initial_time : str
+        initial_time : int
             beginning of window to download games.
             Default: beginning of user account.
-        latest_time : str
+        latest_time : int
             end of window to download games.
             Default: latest account update time.
         is_rated: whether to download rated games, non-rated or all
