@@ -1,9 +1,6 @@
 """
   This file has the function to fetch token from .env file.
 
-  Unless you are developing, there is no point in
-  calling this function.
-
   To use this function one should import the library and
   call the function.
 """
@@ -16,15 +13,10 @@ def setup(path: str = None,
           env_var: str = 'lichess_token'):
     """Function to fetch token from .env file.
 
-    Args:
-        path (str): Path to .env file with lichess token.
-        env_var (str): Name of the variable to import.
-        db_dir (str): Setup and make folder if it doesn't
-            already exist.
-
-    Returns:
-        token (str): Token from lichess account to connect
-    to API.
+    Returns
+    -------
+        String
+            Token from lichess account to connect to API.
     """
 
     if path is not None:

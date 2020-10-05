@@ -13,14 +13,17 @@ from src.setup_env import setup
 from lichess.format import SINGLE_PGN
 
 
-def convert_ms_to_date(time_in_ms):
-    """Convert epoch time in ms to readable datetime format.
+def convert_ms_to_date(time_in_ms: int):
+    """
+    Convert epoch time in ms to readable datetime format.
 
     Args:
         time_in_ms (int): current epoch time in ms.
 
-    Returns:
-        time (datetime): returns the time in a readable format.
+    Returns
+    -------
+        Datetime
+            Time in a readable format.
     """
     base_datetime = datetime.datetime(1970, 1, 1)
     delta = datetime.timedelta(0, 0, 0, time_in_ms)
@@ -50,7 +53,7 @@ def download_games(name: str,
                    pref_type: str = None,
                    initial_time: str = None,
                    latest_time: str = None,
-                   is_rated: str = True,
+                   is_rated: bool = True,
                    ) -> None:
     """Function to fetch token from .env file.
 
@@ -59,20 +62,19 @@ def download_games(name: str,
         db_dir (str): Setup and make folder if it doesn't
             already exist. Default = resources
         pref_type (str): filter time control
-            to download.
             To download all several types,
             provide them as a list.
             Default = None
-        initial_time (int): beginning of window
-            to download games.
+        initial_time : str
+            beginning of window to download games.
             Default: beginning of user account.
-        latest_time (int): end of window
-            to download games.
+        latest_time : str
+            end of window to download games.
             Default: latest account update time.
-        is_rated (bool): filter rated games.
-            Default: True (Rated only)
+        is_rated: whether to download rated games, non-rated or all
 
-    Returns:
+    Returns
+    -------
         None
     """
 
@@ -143,4 +145,4 @@ def download_games(name: str,
 
 if __name__ == '__main__':  # pragma: no cover
     download_games('carequinha',
-                   is_rated=True)
+                        is_rated=True)
