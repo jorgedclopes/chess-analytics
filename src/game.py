@@ -123,11 +123,16 @@ class ChessGame:
         return new_game
 
     def get_result(self):
+        result = ""
         if ((self.players['white'].name == "carequinha" and self.result == "1-0") or
                 (self.players['black'].name == "carequinha" and self.result == "0-1")):
-            return "WIN"
+            result = "WIN"
         elif ((self.players['white'].name == "carequinha" and self.result == "0-1") or
                 (self.players['black'].name == "carequinha" and self.result == "1-0")):
-            return "LOSS"
+            result = "LOSS"
         elif self.result == "1/2-1/2":
-            return "DRAW"
+            result = "DRAW"
+
+        if result is None:
+            raise RuntimeError("Get_result does not fall in any of the conditions.")
+        return result

@@ -9,8 +9,8 @@ from pathlib import Path
 from pprint import pprint
 import datetime
 import lichess.api
-from src.setup_env import setup
 from lichess.format import SINGLE_PGN
+from src.setup_env import setup
 
 
 def convert_ms_to_date(time_in_ms: int):
