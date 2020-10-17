@@ -18,6 +18,7 @@ class ChessGame:
         # General Game Information
         self.site = None
         self.date = None
+        self.time = None
         # self.rated = None     ## PGN does not have this information
         self.variant = None
         # self.speed = None     ## PGN does not have this information
@@ -40,7 +41,10 @@ class ChessGame:
     def __str__(self):
         return (
             f'{self.variant} game between '
-            f'{self.players["white"]} and {self.players["black"]}'
+            f'{self.players["white"]} and {self.players["black"]}.\n'
+            f'This game\'s time control was {self.timecontrol} was played in {self.date}. '
+            f'The result was {self.result}.\n'
+            f'The oppening code is {self.eco} and the game had a length of {self.turns} moves.'
         )
 
     @staticmethod
@@ -74,7 +78,7 @@ class ChessGame:
 
         common_attributes = [
             'site', 'date', 'variant', 'timecontrol', 'termination',
-            'eco', 'moves', 'result', 'termination'
+            'eco', 'moves', 'result', 'utctime'
         ]
         for attr in common_attributes:
             new_game.__setattr__(attr, pgn_game.__getattribute__(attr))
