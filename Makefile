@@ -17,6 +17,9 @@ check-type:
 	mypy --ignore-missing-imports src
 	mypy --ignore-missing-imports tests/unit
 
+clean-output:
+	nbstripout src/*.ipynb
+
 approve: check-type lint test
 
 cleandocs:

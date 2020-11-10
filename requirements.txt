@@ -2,10 +2,12 @@ python-dotenv
 python-lichess
 python-chess
 jupyterlab
+nbstripout
 pytest
 pdoc3
 pylint
 pgnparser
+pre-commit
 coverage
 pytest-cov
 mypy
