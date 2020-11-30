@@ -44,16 +44,21 @@ def save_to_file(game,
 
     """
     filename = os.path.join(save_dir, save_file + '.pgn')
-    with open(filename, 'w') as file:
-        file.write("".join(game))
+    if os.path.exists(filename):
+        with open(filename, 'a') as file:
+            file.write("".join(game))
+    else:
+        with open(filename, 'w') as file:
+            file.write("".join(game))
 
 
 def download_games(name: str,
                    db_dir: str = 'resources',
-                   pref_type: str = None,
+                   perf_type: str = None,
                    initial_time: int = None,
                    latest_time: int = None,
                    is_rated: bool = True,
+                   mock: bool = False
                    ) -> None:
     """Function to fetch token from .env file.
 
@@ -108,25 +113,29 @@ def download_games(name: str,
     pprint("Total games seen: " + str(len_total_games))
     print(initial_time, latest_time, delta_time)
     print(convert_ms_to_date(initial_time),
-          convert_ms_to_date(latest_time),
-          convert_ms_to_date(delta_time))
+          convert_ms_to_date(latest_time))
 
     games_list = list()
 
     time_30min = 30 * 60 * 1000
     increment = max([int(delta_time / 100), time_30min])
-    latest_time = initial_time + 2 * increment
+    if mock:
+        latest_time = initial_time + increment
+
     for time_index in range(initial_time,
                             latest_time,
                             increment):
-        print(convert_ms_to_date(time_index))
+        print(convert_ms_to_date(time_index).__str__() +
+              "\t\t" +
+              convert_ms_to_date(time_index + increment).__str__())
 
         games_generator = lichess.api.user_games(
             name,
-            perfType=pref_type,
+            perfType=perf_type,
             since=time_index,
             until=time_index + increment,
-            rated=is_rated,
+            rated="true" if is_rated else "false",
+            clocks="true",
             format=SINGLE_PGN,
             auth=token
         )
@@ -145,4 +154,4 @@ def download_games(name: str,
 
 if __name__ == '__main__':  # pragma: no cover
     download_games('carequinha',
-                        is_rated=True)
+                   perf_type="blitz")

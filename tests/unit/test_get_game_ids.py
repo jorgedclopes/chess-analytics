@@ -22,7 +22,7 @@ class TestDownload:
         log.debug('before function call')
         download_games(name='carequinha',
                        db_dir=db_test_dir,
-                       pref_type='blitz',
+                       perf_type='blitz',
                        latest_time=final_time)
         game_id_list = os.listdir(db_test_dir)
         shutil.rmtree(db_test_dir)
