@@ -54,8 +54,7 @@ def download_games(name: str,
                    perf_type: str = None,
                    time_period: list = None,
                    is_rated: bool = True,
-                   token: str = None,
-                   mock: bool = False
+                   token: str = None
                    ) -> None:
     """Function to fetch token from .env file.
 
@@ -73,17 +72,12 @@ def download_games(name: str,
         token (str): token to authenticate to lichess
             speeds up downloading the games
             Default: None
-        mock (bool): flag to know whether to mock the process or not
-            useful for development and tests
-            Default: False
 
     Returns
     -------
         None
     """
 
-    if time_period is None:
-        time_period = []
     if os.path.exists(os.path.join(db_dir, name + ".pgn")):
         warnings.warn('PGN database already downloaded.',
                       ResourceWarning)
@@ -99,8 +93,9 @@ def download_games(name: str,
     #    print(i, "\t", user['perfs'][i])
 
     # time in milliseconds since Jan 1st 1970
-    if isinstance(time_period, list):
-        initial_time, latest_time = time_period
+    if time_period is None:
+        time_period = []
+    initial_time, latest_time = time_period
     if initial_time is None:
         initial_time = user['createdAt']
     if latest_time is None:
@@ -120,8 +115,6 @@ def download_games(name: str,
 
     time_30min = 30 * 60 * 1000
     increment = max([int(delta_time / 100), time_30min])
-    if mock:
-        latest_time = initial_time + increment
 
     for time_index in range(initial_time,
                             latest_time,
@@ -155,4 +148,15 @@ def download_games(name: str,
 
 if __name__ == '__main__':  # pragma: no cover
     auth = setup(path="./")
-    download_games('carequinha', perf_type="blitz", token=auth)
+
+    user_stats = lichess.api.user('carequinha')
+    time_creation = user_stats['createdAt']
+    time_last_seen = user_stats['seenAt']
+    inc = int(time_last_seen - time_creation / 100)
+    time_mock = time_creation + inc
+
+    # this is a mock to demo how to use this function, the timeframes are very small
+    download_games('carequinha',
+                   perf_type="blitz",
+                   time_period=[time_creation, time_mock],
+                   token=auth)
