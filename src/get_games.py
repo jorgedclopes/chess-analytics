@@ -40,6 +40,7 @@ def save_to_file(game,
         save_dir (str): Folder in which the games will be saved.
         save_file (str): File in which the games will be saved.
     Returns:
+    -------
         None
 
     """
@@ -55,8 +56,7 @@ def save_to_file(game,
 def download_games(name: str,
                    db_dir: str = 'resources',
                    perf_type: str = None,
-                   initial_time: int = None,
-                   latest_time: int = None,
+                   time_period: list = None,
                    is_rated: bool = True,
                    token: str = None,
                    mock: bool = False
@@ -65,26 +65,19 @@ def download_games(name: str,
 
     Args:
         name (str): Path to .env file with lichess token.
-        db_dir (str): Setup and make folder if it doesn't
-            already exist. Default = resources
         pref_type (str): filter time control
             To download all several types,
             provide them as a list.
             Default = None
-        initial_time : int
-            beginning of window to download games.
-            Default: beginning of user account.
-        latest_time : int
-            end of window to download games.
-            Default: latest account update time.
-        is_rated: bool
-            whether to download rated games, non-rated or all
-        token: str
-            token to authenticate to lichess
+        initial_time (int): beginning of window to download games.
+            Default: [beginning of user account, latest account update time].
+        latest_time (int): end of window to download games.
+            Default: .
+        is_rated (bool): whether to download rated games, non-rated or all
+        token (str): token to authenticate to lichess
             speeds up downloading the games
             Default: None
-        mock: bool
-            flag to know whether to mock the process or not
+        mock (bool): flag to know whether to mock the process or not
             useful for development and tests
             Default: False
 
@@ -93,6 +86,8 @@ def download_games(name: str,
         None
     """
 
+    if time_period is None:
+        time_period = []
     if os.path.exists(os.path.join(db_dir, name + ".pgn")):
         warnings.warn('PGN database already downloaded.',
                       ResourceWarning)
@@ -108,6 +103,8 @@ def download_games(name: str,
     #    print(i, "\t", user['perfs'][i])
 
     # time in milliseconds since Jan 1st 1970
+    if isinstance(time_period, list):
+        initial_time, latest_time = time_period
     if initial_time is None:
         initial_time = user['createdAt']
     if latest_time is None:
@@ -162,6 +159,4 @@ def download_games(name: str,
 
 if __name__ == '__main__':  # pragma: no cover
     auth = setup(path="./")
-    download_games('carequinha',
-                   perf_type="blitz",
-                   token=auth)
+    download_games('carequinha', perf_type="blitz", token=auth)
