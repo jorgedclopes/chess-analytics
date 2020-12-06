@@ -45,12 +45,8 @@ def save_to_file(game,
 
     """
     filename = os.path.join(save_dir, save_file + '.pgn')
-    if os.path.exists(filename):
-        with open(filename, 'a') as file:
-            file.write("".join(game))
-    else:
-        with open(filename, 'w') as file:
-            file.write("".join(game))
+    with open(filename, 'a') as file:
+        file.write("".join(game))
 
 
 def download_games(name: str,

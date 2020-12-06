@@ -1,12 +1,13 @@
 import warnings
-from datetime import datetime
+from datetime import timedelta
 import pgn
 
-BASE_TIME = datetime(1900, 1, 1)
+time_args = ['hours', 'minutes', 'seconds']
 
 
 def compute_delta_time(time):
-    return (time - BASE_TIME).total_seconds()
+    func_arg = {arg: int(val) for val, arg in zip(time.split(':'), time_args)}
+    return timedelta(**func_arg).total_seconds()
 
 
 class ChessPlayer:
@@ -162,10 +163,9 @@ class ChessGame:
         return result
 
     def get_clocks(self):
-        if isinstance(self.moves, list):
+        if isinstance(self.moves, list) and len(self.moves) >= 2:
             if "clk" in self.moves[1]:
-                clocks_strings = list(map(lambda s: s[8:15], self.moves[1::2]))
-                return list(map(
-                    lambda s: compute_delta_time(datetime.strptime(s, '%H:%M:%S')),
-                    clocks_strings))
+                clocks_strings = [s[8:15] for s in self.moves[1::2]]
+                return [compute_delta_time(s)
+                        for s in clocks_strings]
         return None
