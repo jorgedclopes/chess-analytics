@@ -7,9 +7,9 @@ from src.setup_env import setup
 
 class TestSetup:
     def test_there_is_no_dotenv(self):
-        with pytest.warns(ResourceWarning) as w:
+        with pytest.warns(Warning) as w:
             token = setup('/this_not_real_path')
-            warnings.warn("No token loaded.", ResourceWarning)
+            warnings.warn("No token loaded.", Warning)
         assert token is None
         assert len(w) == 2
 
@@ -21,5 +21,8 @@ class TestSetup:
 
     def test_no_dir(self):
         temp_dir = 'resources/temp_test_dir/'
-        token = setup(path=temp_dir)
+        with pytest.warns(Warning) as w:
+            token = setup(path=temp_dir)
+            warnings.warn("No token loaded.", Warning)
         assert token is None
+        assert len(w) == 2

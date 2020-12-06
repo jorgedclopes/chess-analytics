@@ -93,7 +93,7 @@ def download_games(name: str,
 
     user = lichess.api.user(name)
 
-    token = setup()
+    token = setup(path="resources/")
 
     # print(user['perfs'].values())
     # for i in user['perfs']:
