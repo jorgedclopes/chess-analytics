@@ -1,6 +1,6 @@
-import pgn
 import warnings
 from datetime import datetime
+import pgn
 
 BASE_TIME = datetime(1900, 1, 1)
 
@@ -44,7 +44,7 @@ class ChessGame:
         self.result = None
 
         # Moves
-        self.moves = None
+        self.moves = []
         self.clocks = None
         self.ply = 0
         self.turns = 0
@@ -162,8 +162,10 @@ class ChessGame:
         return result
 
     def get_clocks(self):
-        if "clk" in self.moves[1]:
-            clocks_strings = list(map(lambda s: s[8:15], self.moves[1::2]))
-            return list(map(lambda s: compute_delta_time(datetime.strptime(s, '%H:%M:%S')), clocks_strings))
-        else:
-            return None
+        if isinstance(self.moves, list):
+            if "clk" in self.moves[1]:
+                clocks_strings = list(map(lambda s: s[8:15], self.moves[1::2]))
+                return list(map(
+                    lambda s: compute_delta_time(datetime.strptime(s, '%H:%M:%S')),
+                    clocks_strings))
+        return None
