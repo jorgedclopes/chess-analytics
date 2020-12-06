@@ -58,6 +58,7 @@ def download_games(name: str,
                    initial_time: int = None,
                    latest_time: int = None,
                    is_rated: bool = True,
+                   token: str = None,
                    mock: bool = False
                    ) -> None:
     """Function to fetch token from .env file.
@@ -76,7 +77,16 @@ def download_games(name: str,
         latest_time : int
             end of window to download games.
             Default: latest account update time.
-        is_rated: whether to download rated games, non-rated or all
+        is_rated: bool
+            whether to download rated games, non-rated or all
+        token: str
+            token to authenticate to lichess
+            speeds up downloading the games
+            Default: None
+        mock: bool
+            flag to know whether to mock the process or not
+            useful for development and tests
+            Default: False
 
     Returns
     -------
@@ -92,8 +102,6 @@ def download_games(name: str,
         Path(db_dir).mkdir(parents=True, exist_ok=False)
 
     user = lichess.api.user(name)
-
-    token = setup(path="resources/")
 
     # print(user['perfs'].values())
     # for i in user['perfs']:
@@ -153,5 +161,7 @@ def download_games(name: str,
 
 
 if __name__ == '__main__':  # pragma: no cover
+    auth = setup(path="./")
     download_games('carequinha',
-                   perf_type="blitz")
+                   perf_type="blitz",
+                   token=auth)
