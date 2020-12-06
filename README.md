@@ -31,4 +31,4 @@ At this point it downloads a set of games from a lichess account into a folder o
 ---
 **Findings/Limitations**
 
-* Games with clocks are only available for games after March/May 2017.
+* Lichess Games with clocks are only available for games after March/May 2017.
