@@ -60,7 +60,7 @@ def download_games(name: str,
 
     Args:
         name (str): Path to .env file with lichess token.
-        pref_type (str): filter time control
+        perf_type (str): filter time control
             To download all several types,
             provide them as a list.
             Default = None
