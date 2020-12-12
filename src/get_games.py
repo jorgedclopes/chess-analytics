@@ -60,14 +60,12 @@ def download_games(name: str,
 
     Args:
         name (str): Path to .env file with lichess token.
-        perf_type (str): filter time control
+        perf_type (str, list): filter time control
             To download all several types,
             provide them as a list.
             Default = None
-        initial_time (int): beginning of window to download games.
+        time_period (list): time window for games to download.
             Default: [beginning of user account, latest account update time].
-        latest_time (int): end of window to download games.
-            Default: .
         is_rated (bool): whether to download rated games, non-rated or all
         token (str): token to authenticate to lichess
             speeds up downloading the games
