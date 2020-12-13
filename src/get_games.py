@@ -52,7 +52,7 @@ def save_to_file(game: list,
 def download_games(name: str,
                    db_dir: str = 'resources',
                    perf_type: str = None,
-                   time_period: list = None,
+                   time_period: tuple = (None, None),
                    is_rated: bool = True,
                    token: str = None
                    ) -> None:
@@ -64,7 +64,7 @@ def download_games(name: str,
             To download all several types,
             provide them as a list.
             Default = None
-        time_period (list): time window for games to download.
+        time_period (tuple): time window for games to download.
             Default: [beginning of user account, latest account update time].
         is_rated (bool): whether to download rated games, non-rated or all
         token (str): token to authenticate to lichess
@@ -87,8 +87,6 @@ def download_games(name: str,
     user = lichess.api.user(name)
 
     # time in milliseconds since Jan 1st 1970
-    if time_period is None:
-        time_period = [None, None]
     initial_time, latest_time = time_period
     if initial_time is None:
         initial_time = user['createdAt']
@@ -152,5 +150,5 @@ if __name__ == '__main__':  # pragma: no cover
     # this is a mock to demo how to use this function, the timeframes are very small
     download_games(user_name,
                    perf_type="blitz",
-                   time_period=[time_creation, time_mock],
+                   time_period=(time_creation, time_mock),
                    token=auth)
