@@ -113,9 +113,9 @@ def download_games(name: str,
     for time_index in range(initial_time,
                             latest_time,
                             increment):
-        print(str(convert_ms_to_date(time_index)) +
-              "\t\t" +
-              str(convert_ms_to_date(time_index + increment)))
+        print(convert_ms_to_date(time_index),
+              "\t\t",
+              convert_ms_to_date(time_index + increment))
 
         games_generator = lichess.api.user_games(
             name,
