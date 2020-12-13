@@ -30,9 +30,9 @@ def convert_ms_to_date(time_in_ms: int):
     return base_datetime + delta
 
 
-def save_to_file(game,
-                 save_dir,
-                 save_file):
+def save_to_file(game: list,
+                 save_dir: str,
+                 save_file: str):
     """Save game in file.
 
     Args:
@@ -45,7 +45,7 @@ def save_to_file(game,
 
     """
     filename = os.path.join(save_dir, save_file + '.pgn')
-    with open(filename, 'a') as file:
+    with open(filename, 'w') as file:
         file.write("".join(game))
 
 
@@ -86,13 +86,9 @@ def download_games(name: str,
 
     user = lichess.api.user(name)
 
-    # print(user['perfs'].values())
-    # for i in user['perfs']:
-    #    print(i, "\t", user['perfs'][i])
-
     # time in milliseconds since Jan 1st 1970
     if time_period is None:
-        time_period = []
+        time_period = [None, None]
     initial_time, latest_time = time_period
     if initial_time is None:
         initial_time = user['createdAt']
@@ -117,9 +113,9 @@ def download_games(name: str,
     for time_index in range(initial_time,
                             latest_time,
                             increment):
-        print(convert_ms_to_date(time_index).__str__() +
+        print(str(convert_ms_to_date(time_index)) +
               "\t\t" +
-              convert_ms_to_date(time_index + increment).__str__())
+              str(convert_ms_to_date(time_index + increment)))
 
         games_generator = lichess.api.user_games(
             name,
@@ -146,15 +142,15 @@ def download_games(name: str,
 
 if __name__ == '__main__':  # pragma: no cover
     auth = setup(path="./")
-
-    user_stats = lichess.api.user('carequinha')
+    user_name = 'carequinha'
+    user_stats = lichess.api.user(user_name)
     time_creation = user_stats['createdAt']
     time_last_seen = user_stats['seenAt']
     inc = int(time_last_seen - time_creation / 100)
     time_mock = time_creation + inc
 
     # this is a mock to demo how to use this function, the timeframes are very small
-    download_games('carequinha',
+    download_games(user_name,
                    perf_type="blitz",
                    time_period=[time_creation, time_mock],
                    token=auth)
