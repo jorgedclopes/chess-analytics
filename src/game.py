@@ -1,4 +1,13 @@
+import warnings
+from datetime import timedelta
 import pgn
+
+time_args = ['hours', 'minutes', 'seconds']
+
+
+def compute_delta_time(time):
+    func_arg = {arg: int(val) for val, arg in zip(time.split(':'), time_args)}
+    return timedelta(**func_arg).total_seconds()
 
 
 class ChessPlayer:
@@ -8,6 +17,11 @@ class ChessPlayer:
         self.rating = 0
         if rating is not None:
             self.rating = rating
+
+    def __eq__(self, other):
+        if isinstance(other, str):
+            return self.name == other
+        return False
 
     def __str__(self):
         return f'{self.name} ({self.rating})'
@@ -27,10 +41,12 @@ class ChessGame:
 
         # Players, see class ChessPlayer
         self.players = {}
+        self.owner = None
         self.result = None
 
         # Moves
-        self.moves = None
+        self.moves = []
+        self.clocks = None
         self.ply = 0
         self.turns = 0
         self.eco = None
@@ -95,6 +111,7 @@ class ChessGame:
         # Moves
         new_game.ply = len(new_game.moves)
         new_game.turns = (new_game.ply + 1) // 2
+        new_game.clocks = new_game.get_clocks()
 
         return new_game
 
@@ -126,13 +143,17 @@ class ChessGame:
 
         return new_game
 
-    def get_result(self):
+    def get_result(self, user):
+
         result = ""
-        if ((self.players['white'].name == "carequinha" and self.result == "1-0") or
-                (self.players['black'].name == "carequinha" and self.result == "0-1")):
+        if user not in self.players.values():
+            result = "Error - that player is not in this game."
+            warnings.warn("That player is not in this game", Warning)
+        elif ((self.players['white'].name == user and self.result == "1-0") or
+              (self.players['black'].name == user and self.result == "0-1")):
             result = "WIN"
-        elif ((self.players['white'].name == "carequinha" and self.result == "0-1") or
-                (self.players['black'].name == "carequinha" and self.result == "1-0")):
+        elif ((self.players['white'].name == user and self.result == "0-1") or
+              (self.players['black'].name == user and self.result == "1-0")):
             result = "LOSS"
         elif self.result == "1/2-1/2":
             result = "DRAW"
@@ -140,3 +161,11 @@ class ChessGame:
         if result is None:
             raise RuntimeError("Get_result does not fall in any of the conditions.")
         return result
+
+    def get_clocks(self):
+        if isinstance(self.moves, list) and len(self.moves) >= 2:
+            if "clk" in self.moves[1]:
+                clocks_strings = [s[8:15] for s in self.moves[1::2]]
+                return [compute_delta_time(s)
+                        for s in clocks_strings]
+        return None

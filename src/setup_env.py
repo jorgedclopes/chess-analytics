@@ -25,5 +25,5 @@ def setup(path: str = None,
     load_dotenv(dotenv_path=path, verbose=True)
     token = os.getenv(env_var)
     if token is None:
-        warnings.warn("No token loaded.", ResourceWarning)
+        warnings.warn("No token loaded.", Warning)
     return token

@@ -1,6 +1,5 @@
 python-dotenv
 python-lichess
-python-chess
 jupyterlab
 nbstripout
 pytest

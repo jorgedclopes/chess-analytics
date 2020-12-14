@@ -27,3 +27,8 @@ At this point it downloads a set of games from a lichess account into a folder o
 * The py files have the functions to process the games.
 * Jupyter files are used for any graphical output.
 * A makefile will be made at some point in the future.
+
+---
+**Findings/Limitations**
+
+* Lichess Games with clocks are only available for games after March/May 2017.

@@ -30,9 +30,9 @@ def convert_ms_to_date(time_in_ms: int):
     return base_datetime + delta
 
 
-def save_to_file(game,
-                 save_dir,
-                 save_file):
+def save_to_file(game: list,
+                 save_dir: str,
+                 save_file: str):
     """Save game in file.
 
     Args:
@@ -40,6 +40,7 @@ def save_to_file(game,
         save_dir (str): Folder in which the games will be saved.
         save_file (str): File in which the games will be saved.
     Returns:
+    -------
         None
 
     """
@@ -50,28 +51,25 @@ def save_to_file(game,
 
 def download_games(name: str,
                    db_dir: str = 'resources',
-                   pref_type: str = None,
-                   initial_time: int = None,
-                   latest_time: int = None,
+                   perf_type: str = None,
+                   time_period: tuple = (None, None),
                    is_rated: bool = True,
+                   token: str = None
                    ) -> None:
     """Function to fetch token from .env file.
 
     Args:
         name (str): Path to .env file with lichess token.
-        db_dir (str): Setup and make folder if it doesn't
-            already exist. Default = resources
-        pref_type (str): filter time control
+        perf_type (str, list): filter time control
             To download all several types,
             provide them as a list.
             Default = None
-        initial_time : int
-            beginning of window to download games.
-            Default: beginning of user account.
-        latest_time : int
-            end of window to download games.
-            Default: latest account update time.
-        is_rated: whether to download rated games, non-rated or all
+        time_period (tuple): time window for games to download.
+            Default: [beginning of user account, latest account update time].
+        is_rated (bool): whether to download rated games, non-rated or all
+        token (str): token to authenticate to lichess
+            speeds up downloading the games
+            Default: None
 
     Returns
     -------
@@ -88,13 +86,8 @@ def download_games(name: str,
 
     user = lichess.api.user(name)
 
-    token = setup()
-
-    # print(user['perfs'].values())
-    # for i in user['perfs']:
-    #    print(i, "\t", user['perfs'][i])
-
     # time in milliseconds since Jan 1st 1970
+    initial_time, latest_time = time_period
     if initial_time is None:
         initial_time = user['createdAt']
     if latest_time is None:
@@ -108,25 +101,27 @@ def download_games(name: str,
     pprint("Total games seen: " + str(len_total_games))
     print(initial_time, latest_time, delta_time)
     print(convert_ms_to_date(initial_time),
-          convert_ms_to_date(latest_time),
-          convert_ms_to_date(delta_time))
+          convert_ms_to_date(latest_time))
 
     games_list = list()
 
     time_30min = 30 * 60 * 1000
     increment = max([int(delta_time / 100), time_30min])
-    latest_time = initial_time + 2 * increment
+
     for time_index in range(initial_time,
                             latest_time,
                             increment):
-        print(convert_ms_to_date(time_index))
+        print(convert_ms_to_date(time_index),
+              "\t\t",
+              convert_ms_to_date(time_index + increment))
 
         games_generator = lichess.api.user_games(
             name,
-            perfType=pref_type,
+            perfType=perf_type,
             since=time_index,
             until=time_index + increment,
-            rated=is_rated,
+            rated="true" if is_rated else "false",
+            clocks="true",
             format=SINGLE_PGN,
             auth=token
         )
@@ -144,5 +139,16 @@ def download_games(name: str,
 
 
 if __name__ == '__main__':  # pragma: no cover
-    download_games('carequinha',
-                        is_rated=True)
+    auth = setup(path="./")
+    user_name = 'carequinha'
+    user_stats = lichess.api.user(user_name)
+    time_creation = user_stats['createdAt']
+    time_last_seen = user_stats['seenAt']
+    inc = int(time_last_seen - time_creation / 100)
+    time_mock = time_creation + inc
+
+    # this is a mock to demo how to use this function, the timeframes are very small
+    download_games(user_name,
+                   perf_type="blitz",
+                   time_period=(time_creation, time_mock),
+                   token=auth)
