@@ -111,7 +111,7 @@ class ChessGame:
         # Moves
         new_game.ply = len(new_game.moves)
         new_game.turns = (new_game.ply + 1) // 2
-        new_game.moves, new_game.clocks = new_game.__get_clocks()
+        new_game.moves, new_game.clocks = new_game.get_clocks()
 
         return new_game
 
@@ -162,7 +162,7 @@ class ChessGame:
             raise RuntimeError("Get_result does not fall in any of the conditions.")
         return result
 
-    def __get_clocks(self):
+    def get_clocks(self):
         if isinstance(self.moves, list) and len(self.moves) >= 2:
             if "clk" in self.moves[1]:
                 clocks_strings = [s[8:15] for s in self.moves[1::2]]
