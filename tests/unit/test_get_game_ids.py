@@ -23,7 +23,7 @@ class TestDownload:
         download_games(name='carequinha',
                        db_dir=db_test_dir,
                        perf_type='blitz',
-                       time_period=[initial_time, final_time])
+                       time_period=(initial_time, final_time))
         game_id_list = os.listdir(db_test_dir)
         shutil.rmtree(db_test_dir)
         assert len(game_id_list) == 1
@@ -37,7 +37,7 @@ class TestDownload:
         with pytest.warns(ResourceWarning) as w:
             download_games(name='carequinha',
                            db_dir=db_test_dir,
-                           time_period=[initial_time, final_time])
+                           time_period=(initial_time, final_time))
             warnings.warn('PGN database already downloaded.',
                           ResourceWarning)
 
@@ -55,12 +55,12 @@ class TestDownload:
         db_test_dir1 = 'resources/PGN_database_test1'
         download_games(name='carequinha',
                        db_dir=db_test_dir1,
-                       time_period=[initial_time, final_time])
+                       time_period=(initial_time, final_time))
 
         db_test_dir2 = 'resources/PGN_database_test2'
         download_games(name='carequinha',
                        db_dir=db_test_dir2,
-                       time_period=[initial_time, final_time])
+                       time_period=(initial_time, final_time))
 
         expected = os.listdir(db_test_dir1)
         actual = os.listdir(db_test_dir2)
@@ -78,12 +78,12 @@ class TestDownload:
         db_test_dir1 = 'resources/PGN_database_test1'
         download_games(name='carequinha',
                        db_dir=db_test_dir1,
-                       time_period=[initial_time, final_time])
+                       time_period=(initial_time, final_time))
 
         db_test_dir2 = 'resources/PGN_database_test2'
         download_games(name='carequinha',
                        db_dir=db_test_dir2,
-                       time_period=[initial_time, final_time])
+                       time_period=(initial_time, final_time))
         log.debug('after function call')
 
         expected = os.listdir(db_test_dir1)
@@ -91,3 +91,17 @@ class TestDownload:
         shutil.rmtree(db_test_dir1)
         shutil.rmtree(db_test_dir2)
         assert expected == actual
+
+    def test_existing_file(self):
+        path = '.'
+        filename = 'a'
+        full_path = os.path.join(path, filename + ".pgn")
+        a = open(full_path, 'w')
+        a.close()
+
+        with pytest.warns(Warning):
+            download_games(filename,
+                           db_dir=path)
+            warnings.warn('PGN database already downloaded.', Warning)
+
+        os.remove(full_path)
