@@ -99,7 +99,7 @@ class TestDownload:
         a = open(full_path, 'w')
         a.close()
 
-        with pytest.warns(Warning) as w:
+        with pytest.warns(Warning):
             download_games(filename,
                            db_dir=path)
             warnings.warn('PGN database already downloaded.', Warning)
