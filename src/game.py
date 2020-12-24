@@ -163,6 +163,14 @@ class ChessGame:
             raise RuntimeError("Get_result does not fall in any of the conditions.")
         return result
 
+    def get_rating_diff(self, user):
+        if self.players['white'] == user:
+            factor = 1
+        else:
+            factor = -1
+        r = factor*(int(self.players['white'].rating) - int(self.players['black'].rating))
+        return r
+
     def split_moves_clocks(self):
         if isinstance(self.moves, list) and len(self.moves) >= 2:
             if "clk" in self.moves[1]:
