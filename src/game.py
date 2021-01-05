@@ -180,3 +180,11 @@ class ChessGame:
                           for s in clocks_strings]
                 return moves, clocks
         return self.moves, None
+
+    def get_player_color(self, user):
+        if self.players['white'] == user:
+            return 'white'
+        elif self.players['black'] == user:
+            return 'black'
+        else:
+            raise UserWarning('No such player in this game.')
