@@ -182,9 +182,7 @@ class ChessGame:
         return self.moves, None
 
     def get_player_color(self, user):
-        if self.players['white'] == user:
-            return 'white'
-        elif self.players['black'] == user:
-            return 'black'
-        else:
-            raise UserWarning('No such player in this game.')
+        for k in self.players.keys():
+            if self.players[k] == user:
+                return k
+        raise UserWarning('No such player in this game.')
