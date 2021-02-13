@@ -149,6 +149,7 @@ if __name__ == '__main__':  # pragma: no cover
 
     # this is a mock to demo how to use this function, the timeframes are very small
     download_games(user_name,
+                   db_dir="../resources",
                    perf_type="blitz",
                    time_period=(time_creation, time_mock),
                    token=auth)

@@ -1,5 +1,6 @@
 import warnings
 from datetime import timedelta
+import numpy as np
 import pgn
 
 time_args = ['hours', 'minutes', 'seconds']
@@ -33,6 +34,7 @@ class ChessGame:
         self.site = None
         self.date = None
         self.time = None
+        self.utctime = None
         # self.rated = None     ## PGN does not have this information
         self.variant = None
         # self.speed = None     ## PGN does not have this information
@@ -147,9 +149,12 @@ class ChessGame:
     def is_player_or_color(self, user, color):
         return self.players[color] == user or color == user
 
+    def get_player_names(self):
+        return (p.name for p in self.players.values())
+
     def get_result(self, user):
         result = ""
-        if (user not in self.players.values()) or user not in ("white", "black"):
+        if (user not in self.get_player_names()) and (user not in ("white", "black")):
             result = "Error - that player is not in this game."
             warnings.warn("That player is not in this game", Warning)
         elif ((self.is_player_or_color(user, 'white') and self.result == "1-0") or
@@ -184,11 +189,32 @@ class ChessGame:
         return self.moves, None
 
     def get_player_color(self, user):
+        if user not in self.players.values():
+            raise UserWarning('No such player in this game.')
         for k, v in self.players.items():
             if v == user:
                 return k
-        raise UserWarning('No such player in this game.')
+
+    def get_opponent_color(self, user):
+        player_color = self.get_player_color(user)
+        opponent_color = 'black' if (player_color == 'white') else 'white' if (player_color == 'black') else None
+        return opponent_color
 
     def get_player_rating(self, user):
         color = self.get_player_color(user)
         return self.players[color].rating
+
+    def get_opponent_rating(self, user):
+        color = self.get_opponent_color(user)
+        return self.players[color].rating
+
+    def parse_month_year(self):
+        year = self.date.split('.')[0]
+        month = self.date.split('.')[1]
+        return float(year) + float(month)/12 - 1/12
+
+    def parse_hours(self):
+        return int(self.utctime.split(':')[0])
+
+    def get_month_year(self):
+        return np.datetime64(self.date.replace('.', '-'), 'M')

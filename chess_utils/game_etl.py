@@ -18,3 +18,8 @@ def data_transform_array(game_list, funcs, arg_labels=('X', 'Y', 'Z')):
     for arr, arg in zip(temp, arg_labels):
         game_results[arg] = arr
     return game_results
+
+
+def get_result_list(game_list, player_name):
+    list_result = list(map(lambda game: game.get_result(player_name), game_list))
+    return {el: list_result.count(el) for el in set(list_result)}
