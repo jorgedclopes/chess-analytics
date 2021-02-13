@@ -144,17 +144,19 @@ class ChessGame:
 
         return new_game
 
-    def get_result(self, user):
+    def is_player_or_color(self, user, color):
+        return self.players[color] == user or color == user
 
+    def get_result(self, user):
         result = ""
-        if user not in self.players.values():
+        if (user not in self.players.values()) or user not in ("white", "black"):
             result = "Error - that player is not in this game."
             warnings.warn("That player is not in this game", Warning)
-        elif ((self.players['white'].name == user and self.result == "1-0") or
-              (self.players['black'].name == user and self.result == "0-1")):
+        elif ((self.is_player_or_color(user, 'white') and self.result == "1-0") or
+              (self.is_player_or_color(user, 'black') and self.result == "0-1")):
             result = "WIN"
-        elif ((self.players['white'].name == user and self.result == "0-1") or
-              (self.players['black'].name == user and self.result == "1-0")):
+        elif ((self.is_player_or_color(user, 'white') and self.result == "0-1") or
+              (self.is_player_or_color(user, 'black') and self.result == "1-0")):
             result = "LOSS"
         elif self.result == "1/2-1/2":
             result = "DRAW"
@@ -168,7 +170,7 @@ class ChessGame:
             factor = 1
         else:
             factor = -1
-        r = factor*(int(self.players['white'].rating) - int(self.players['black'].rating))
+        r = factor * (int(self.players['white'].rating) - int(self.players['black'].rating))
         return r
 
     def split_moves_clocks(self):
@@ -182,7 +184,11 @@ class ChessGame:
         return self.moves, None
 
     def get_player_color(self, user):
-        for k,v in self.players.items():
+        for k, v in self.players.items():
             if v == user:
                 return k
         raise UserWarning('No such player in this game.')
+
+    def get_player_rating(self, user):
+        color = self.get_player_color(user)
+        return self.players[color].rating
