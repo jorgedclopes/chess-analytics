@@ -8,7 +8,21 @@ def array_reshape(data, n_point):
     )
 
 
-def data_transform_array(game_list, funcs, arg_labels=('X', 'Y', 'Z')):
+def data_transform_array(game_list, funcs, arg_labels=['X', 'Y', 'Z']):
+    """
+    This function helps to transform the data.
+    The initial purpose of this function was to prepare data to plot
+    but we can also use it to prepare for analysis.
+
+    Args:
+        game_list (list): raw data of list of games
+        funcs (list): list of functions to be applied to the games list
+        arg_labels (list): list of labels for the np.array columns
+
+    Returns
+    -------
+        np array with columns transformed by funcs
+    """
     v_funcs = [np.vectorize(func) for func in funcs]
     temp = [func(game_list) for func in v_funcs]
 
