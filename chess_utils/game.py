@@ -100,7 +100,11 @@ class ChessGame:
             'eco', 'moves', 'result', 'utctime'
         ]
         for attr in common_attributes:
-            new_game.__setattr__(attr, pgn_game.__getattribute__(attr))
+            try:
+                new_game.__setattr__(attr, pgn_game.__getattribute__(attr))
+            except AttributeError as e:
+                print("Attribute not present in pgn." + str(e))
+                pass
 
         # Last move is the result
         new_game.moves.pop()
@@ -211,7 +215,7 @@ class ChessGame:
     def parse_month_year(self):
         year = self.date.split('.')[0]
         month = self.date.split('.')[1]
-        return float(year) + float(month)/12 - 1/12
+        return float(year) + float(month) / 12 - 1 / 12
 
     def parse_hours(self):
         return int(self.utctime.split(':')[0])
