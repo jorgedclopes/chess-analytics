@@ -3,10 +3,9 @@ from datetime import timedelta
 import numpy as np
 import pgn
 
-time_args = ['hours', 'minutes', 'seconds']
-
 
 def compute_delta_time(time):
+    time_args = ['hours', 'minutes', 'seconds']
     func_arg = {arg: int(val) for val, arg in zip(time.split(':'), time_args)}
     return timedelta(**func_arg).total_seconds()
 
@@ -35,9 +34,7 @@ class ChessGame:
         self.date = None
         self.time = None
         self.utctime = None
-        # self.rated = None     ## PGN does not have this information
         self.variant = None
-        # self.speed = None     ## PGN does not have this information
         self.timecontrol = None
         self.termination = None
 
@@ -103,8 +100,7 @@ class ChessGame:
             try:
                 new_game.__setattr__(attr, pgn_game.__getattribute__(attr))
             except AttributeError as e:
-                print("Attribute not present in pgn." + str(e))
-                pass
+                warnings.warn(str(e))
 
         # Last move is the result
         new_game.moves.pop()
@@ -122,36 +118,8 @@ class ChessGame:
 
         return new_game
 
-    @staticmethod
-    def load_from_json(json_dict, source='lichess'):
-        new_game = ChessGame()
-
-        for attr in ['rated', 'variant', 'speed', 'status']:
-            setattr(new_game, attr, json_dict[attr])
-
-        if source == 'lichess':
-            new_game.site = f'https://lichess.org/{json_dict["id"]}'
-
-        # new_game.site = site
-        # new_game.date = date
-        # new_game.round = round
-        # new_game.white = white
-        # new_game.black = black
-        # new_game.result = result
-        # new_game.annotator = None
-        # new_game.plycount = None
-        # new_game.timecontrol = None
-        # new_game.time = None
-        # new_game.termination = None
-        # new_game.mode = None
-        # new_game.fen = None
-
-        # new_game.moves = []
-
-        return new_game
-
     def is_player_or_color(self, user, color):
-        return self.players[color] == user or color == user
+        return user in (self.players[color], color)
 
     def get_player_names(self):
         return (p.name for p in self.players.values())
@@ -193,16 +161,18 @@ class ChessGame:
         return self.moves, None
 
     def get_player_color(self, user):
-        if user not in self.players.values():
-            raise UserWarning('No such player in this game.')
         for k, v in self.players.items():
             if v == user:
                 return k
+        raise UserWarning('No such player in this game.')
 
     def get_opponent_color(self, user):
         player_color = self.get_player_color(user)
-        opponent_color = 'black' if (player_color == 'white') else 'white' if (player_color == 'black') else None
-        return opponent_color
+        opponent_colors = [x is not player_color for x in self.players]
+        # opponent_color = 'black' if (player_color == 'white')
+        # else 'white' if (player_color == 'black')
+        # else None
+        return opponent_colors
 
     def get_player_rating(self, user):
         color = self.get_player_color(user)
