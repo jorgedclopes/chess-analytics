@@ -1,0 +1,18 @@
+[Event "Rated Blitz game"]
+[Site "https://lichess.org/t1N6XrxK"]
+[Date "2019.10.22"]
+[White "carequinha"]
+[Black "lorenzm"]
+[Result "1-0"]
+[UTCDate "2019.10.22"]
+[UTCTime "12:34:12"]
+[WhiteElo "1912"]
+[BlackElo "2020"]
+[WhiteRatingDiff "+10"]
+[BlackRatingDiff "-9"]
+[Variant "Standard"]
+[TimeControl "180+0"]
+[ECO "D35"]
+[Termination "Normal"]
+
+1. d4 { [%clk 0:03:00] } d5 { [%clk 0:03:00] } 2. c4 { [%clk 0:03:00] } e6 { [%clk 0:03:00] } 3. Nc3 { [%clk 0:03:00] } Nf6 { [%clk 0:02:59] } 4. cxd5 { [%clk 0:03:00] } Nxd5 { [%clk 0:02:58] } 5. Nf3 { [%clk 0:02:58] } Nxc3 { [%clk 0:02:57] } 6. bxc3 { [%clk 0:02:58] } Be7 { [%clk 0:02:57] } 7. e4 { [%clk 0:02:57] } b6 { [%clk 0:02:57] } 8. Bc4 { [%clk 0:02:55] } Bb7 { [%clk 0:02:57] } 9. Qc2 { [%clk 0:02:53] } Nd7 { [%clk 0:02:55] } 10. O-O { [%clk 0:02:52] } c5 { [%clk 0:02:55] } 11. d5 { [%clk 0:02:49] } exd5 { [%clk 0:02:54] } 12. exd5 { [%clk 0:02:49] } O-O { [%clk 0:02:53] } 13. Re1 { [%clk 0:02:48] } Nf6 { [%clk 0:02:52] } 14. Rd1 { [%clk 0:02:41] } Qd6 { [%clk 0:02:41] } 15. Bb3 { [%clk 0:02:40] } Rfd8 { [%clk 0:02:40] } 16. c4 { [%clk 0:02:40] } a6 { [%clk 0:02:34] } 17. Qf5 { [%clk 0:02:38] } b5 { [%clk 0:02:33] } 18. cxb5 { [%clk 0:02:37] } axb5 { [%clk 0:02:32] } 19. Bf4 { [%clk 0:02:35] } Qd7 { [%clk 0:02:30] } 20. Qxd7 { [%clk 0:02:33] } Rxd7 { [%clk 0:02:29] } 21. d6 { [%clk 0:02:27] } Bf8 { [%clk 0:02:27] } 22. Ne5 { [%clk 0:02:23] } Rdd8 { [%clk 0:02:24] } 23. Nxf7 { [%clk 0:02:20] } c4 { [%clk 0:02:15] } 24. Nxd8 { [%clk 0:02:19] } Rxd8 { [%clk 0:02:14] } 25. Bc2 { [%clk 0:02:15] } Ne8 { [%clk 0:02:12] } 26. d7 { [%clk 0:02:12] } Nf6 { [%clk 0:02:11] } 27. Bc7 { [%clk 0:02:11] } Rxd7 { [%clk 0:02:09] } 28. Rxd7 { [%clk 0:02:10] } Nxd7 { [%clk 0:02:09] } 29. Bf5 { [%clk 0:02:06] } Nf6 { [%clk 0:02:06] } 30. Be6+ { [%clk 0:02:04] } Kh8 { [%clk 0:02:04] } 31. Rb1 { [%clk 0:02:02] } Bc6 { [%clk 0:02:03] } 32. Rd1 { [%clk 0:01:58] } Be7 { [%clk 0:02:00] } 33. Ba5 { [%clk 0:01:56] } h6 { [%clk 0:01:58] } 34. Bf5 { [%clk 0:01:52] } Kg8 { [%clk 0:01:56] } 35. Bg6 { [%clk 0:01:51] } Nd5 { [%clk 0:01:52] } 36. Re1 { [%clk 0:01:48] } Bf6 { [%clk 0:01:49] } 37. Re6 { [%clk 0:01:46] } Ne7 { [%clk 0:01:38] } 38. Bb4 { [%clk 0:01:43] } Bd5 { [%clk 0:01:32] } 39. Rd6 { [%clk 0:01:39] } Be5 { [%clk 0:01:30] } 40. Rd8# { [%clk 0:01:37] } 1-0

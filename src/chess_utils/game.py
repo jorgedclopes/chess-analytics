@@ -16,7 +16,7 @@ class ChessPlayer:
 
         self.rating = 0
         if rating is not None:
-            self.rating = rating
+            self.rating = int(rating)
 
     def __eq__(self, other):
         if isinstance(other, str):
@@ -49,9 +49,6 @@ class ChessGame:
         self.ply = 0
         self.turns = 0
         self.eco = None
-
-        # Extra Info
-        # self.stage_at_end = None      ## Ended at opening/midgame/endgame?
 
     def __str__(self):
         return (
@@ -125,7 +122,7 @@ class ChessGame:
         return (p.name for p in self.players.values())
 
     def get_result(self, user):
-        result = ""
+        result = None
         if (user not in self.get_player_names()) and (user not in ("white", "black")):
             result = "Error - that player is not in this game."
             warnings.warn("That player is not in this game", Warning)
@@ -168,7 +165,7 @@ class ChessGame:
 
     def get_opponent_color(self, user):
         player_color = self.get_player_color(user)
-        opponent_colors = [x is not player_color for x in self.players]
+        opponent_colors = [x for x in self.players if x is not player_color]
         # opponent_color = 'black' if (player_color == 'white')
         # else 'white' if (player_color == 'black')
         # else None
