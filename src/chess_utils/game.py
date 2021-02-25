@@ -166,9 +166,6 @@ class ChessGame:
     def get_opponent_color(self, user):
         player_color = self.get_player_color(user)
         opponent_colors = [x for x in self.players if x is not player_color]
-        # opponent_color = 'black' if (player_color == 'white')
-        # else 'white' if (player_color == 'black')
-        # else None
         return opponent_colors
 
     def get_player_rating(self, user):
@@ -177,7 +174,7 @@ class ChessGame:
 
     def get_opponent_rating(self, user):
         color = self.get_opponent_color(user)
-        return self.players[color].rating
+        return [self.players[c].rating for c in color]
 
     def parse_month_year(self):
         year = self.date.split('.')[0]

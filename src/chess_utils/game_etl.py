@@ -37,5 +37,5 @@ def data_transform_array(game_list, funcs, arg_labels=None):
 
 
 def get_result_list(game_list, player_name):
-    list_result = list(map(lambda game: game.get_result(player_name), game_list))
+    list_result = [game.get_result(player_name) for game in game_list]
     return {el: list_result.count(el) for el in set(list_result)}
