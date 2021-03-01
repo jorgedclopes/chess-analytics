@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name='chess-analytics',
-    version='0.3.1.0',
+    version='0.3.2.0',
     packages=setuptools.find_packages(),
     url='',
     license='',

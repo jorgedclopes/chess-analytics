@@ -2,9 +2,10 @@ import warnings
 from datetime import timedelta
 import numpy as np
 import pgn
+from typing import List, Any
 
 
-def compute_delta_time(time):
+def compute_delta_time(time) -> float:
     time_args = ['hours', 'minutes', 'seconds']
     func_arg = {arg: int(val) for val, arg in zip(time.split(':'), time_args)}
     return timedelta(**func_arg).total_seconds()
@@ -28,6 +29,8 @@ class ChessPlayer:
 
 
 class ChessGame:
+    """This class has all the basic information about the chess games.
+        """
     def __init__(self):
         # General Game Information
         self.site = None
@@ -85,6 +88,11 @@ class ChessGame:
             'termination', 'mode', 'fen', 'moves', 'utcdate', 'utctime',
             'whiteelo', 'blackelo', 'whiteratingdiff', 'blackratingdiff',
             'variant', 'eco'
+
+            Returns
+            -------
+                list(`pdoc.Class`)
+                    returns the result of a game for a given player
         """
 
         new_game = ChessGame()
@@ -103,10 +111,17 @@ class ChessGame:
         new_game.moves.pop()
 
         # Players, see class ChessPlayer
-        new_game.players = {
-            'white': ChessPlayer(pgn_game.white, pgn_game.whiteelo),
-            'black': ChessPlayer(pgn_game.black, pgn_game.blackelo),
-        }
+        try:
+            new_game.players = {
+                'white': ChessPlayer(pgn_game.white, pgn_game.whiteelo),
+                'black': ChessPlayer(pgn_game.black, pgn_game.blackelo),
+            }
+        except AttributeError as e:
+            warnings.warn(str(e))
+            new_game.players = {
+                'white': ChessPlayer(pgn_game.white),
+                'black': ChessPlayer(pgn_game.black),
+            }
 
         # Moves
         new_game.ply = len(new_game.moves)
@@ -115,13 +130,36 @@ class ChessGame:
 
         return new_game
 
-    def is_player_or_color(self, user, color):
+    def is_player_or_color(self, user, color) -> bool:
+        """
+        Returns
+        -------
+            bool
+                whether the input player or color is in the game
+        """
         return user in (self.players[color], color)
 
-    def get_player_names(self):
-        return (p.name for p in self.players.values())
+    def get_player_names(self) -> list:
+        """
+        Returns
+        -------
+            list(str)
+                a list with the names of the players if
+        """
+        return [p.name for p in self.players.values()]
 
-    def get_result(self, user):
+    def get_result(self, user) -> str:
+        """
+
+        Args
+        -------
+        user (str): name of the user for which we want the result
+
+        Returns
+        -------
+            string
+                returns the result of a game for a given player
+        """
         result = None
         if (user not in self.get_player_names()) and (user not in ("white", "black")):
             result = "Error - that player is not in this game."
@@ -139,7 +177,7 @@ class ChessGame:
             raise RuntimeError("Get_result does not fall in any of the conditions.")
         return result
 
-    def get_rating_diff(self, user):
+    def get_rating_diff(self, user) -> int:
         if self.players['white'] == user:
             factor = 1
         else:
@@ -147,7 +185,7 @@ class ChessGame:
         r = factor * (int(self.players['white'].rating) - int(self.players['black'].rating))
         return r
 
-    def split_moves_clocks(self):
+    def split_moves_clocks(self) -> Any:
         if isinstance(self.moves, list) and len(self.moves) >= 2:
             if "clk" in self.moves[1]:
                 moves = self.moves[::2]
@@ -157,32 +195,32 @@ class ChessGame:
                 return moves, clocks
         return self.moves, None
 
-    def get_player_color(self, user):
+    def get_player_color(self, user) -> str:
         for k, v in self.players.items():
             if v == user:
                 return k
         raise UserWarning('No such player in this game.')
 
-    def get_opponent_color(self, user):
+    def get_opponent_color(self, user) -> List[int]:
         player_color = self.get_player_color(user)
         opponent_colors = [x for x in self.players if x is not player_color]
         return opponent_colors
 
-    def get_player_rating(self, user):
+    def get_player_rating(self, user) -> int:
         color = self.get_player_color(user)
         return self.players[color].rating
 
-    def get_opponent_rating(self, user):
+    def get_opponent_rating(self, user) -> List[int]:
         color = self.get_opponent_color(user)
         return [self.players[c].rating for c in color]
 
-    def parse_month_year(self):
+    def parse_month_year(self) -> float:
         year = self.date.split('.')[0]
         month = self.date.split('.')[1]
         return float(year) + float(month) / 12 - 1 / 12
 
-    def parse_hours(self):
+    def parse_hours(self) -> int:
         return int(self.utctime.split(':')[0])
 
-    def get_month_year(self):
+    def get_month_year(self) -> np.datetime64:
         return np.datetime64(self.date.replace('.', '-'), 'M')

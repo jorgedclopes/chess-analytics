@@ -96,7 +96,11 @@ def download_games(name: str,
 
     len_total_games = 0
     for key in user['perfs']:
-        len_total_games += user['perfs'][key]['games']
+        try:
+            part_games = user['perfs'][key]['games']
+            len_total_games += part_games
+        except KeyError:
+            pass
 
     pprint("Total games seen: " + str(len_total_games))
     print(initial_time, latest_time, delta_time)

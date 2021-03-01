@@ -18,9 +18,7 @@ class TestGame:
     @staticmethod
     def test_import_game_with_non_standard_format():
         with pytest.warns(Warning) as w:
-            with pytest.raises(AttributeError) as e:
-                ChessGame.load_pgn_file("tests/unit/pgn_files/bad_file.pgn")
-        assert e.type is AttributeError
+            ChessGame.load_pgn_file("tests/unit/pgn_files/bad_file.pgn")
         assert len(w) > 0
         for wa in w:
             assert "'PGNGame' object has no attribute" in wa.message.args[0]

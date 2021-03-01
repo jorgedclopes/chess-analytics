@@ -1,7 +1,18 @@
 import numpy as np
 
 
-def array_reshape(data, n_point):
+def array_reshape(data, n_point) -> np.ndarray:
+    """
+
+    Parameters
+    ----------
+    data
+    n_point
+
+    Returns
+    -------
+        np.ndarray
+    """
     return np.reshape(
         data[:data.size - (data.size % n_point)],
         (-1, n_point)
@@ -21,7 +32,7 @@ def data_transform_array(game_list, funcs, arg_labels=None):
 
     Returns
     -------
-        np array with columns transformed by funcs
+        np.array with columns transformed by funcs
     """
     if arg_labels is None:
         arg_labels = ['X', 'Y', 'Z']
