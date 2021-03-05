@@ -1,17 +1,19 @@
 import numpy as np
 
 
-def array_reshape(data, n_point) -> np.ndarray:
+def array_reshape(data: np.array, n_point: int) -> np.ndarray:
     """
+    Split an np array into np ndarray where each row has n_points.
 
     Parameters
     ----------
-    data
-    n_point
-
+    data : np.array
+        array with data
+    n_point : int
+        number of points per row
     Returns
     -------
-        np.ndarray
+        np.ndarray with rows of n_point elements
     """
     return np.reshape(
         data[:data.size - (data.size % n_point)],

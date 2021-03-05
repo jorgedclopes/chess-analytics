@@ -1,8 +1,8 @@
 import warnings
 from datetime import timedelta
+from typing import List, Any
 import numpy as np
 import pgn
-from typing import List, Any
 
 
 def compute_delta_time(time) -> float:
@@ -91,7 +91,7 @@ class ChessGame:
 
             Returns
             -------
-                list(`pdoc.Class`)
+                list()
                     returns the result of a game for a given player
         """
 
