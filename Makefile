@@ -8,7 +8,7 @@ lint:
 	pylint --rcfile=.pylintrc tests/unit
 
 docs: cleandocs
-	pdoc3 --html --force --output-dir docs src
+	pdoc3 --html --force -c syntax_highlighting=False --output-dir docs src
 
 test:
 	python3 -m pytest --cov-report html --cov=src -vv --cov-fail-under=70
