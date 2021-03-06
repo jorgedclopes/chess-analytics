@@ -22,15 +22,17 @@ def array_reshape(data: np.array, n_point: int) -> np.ndarray:
     )
 
 
-def data_transform_array(game_list: list, funcs, arg_labels=None):
+def data_transform_array(data_list: list, funcs, arg_labels=None):
     """
+    This function takes a list of data and applies a list of functions.
+    The functions are applied to each game and labeled according to arg_labels.
     This function helps to transform the data.
     The initial purpose of this function was to prepare data to plot.
     but we can also use it to prepare for analysis.
 
     Parameters
     ----------
-    game_list : list
+    data_list : list
         raw data of list of games
     funcs : list
         list of functions to be applied to the games list
@@ -44,10 +46,10 @@ def data_transform_array(game_list: list, funcs, arg_labels=None):
     if arg_labels is None:
         arg_labels = ['X', 'Y', 'Z']
     v_funcs = [np.vectorize(func) for func in funcs]
-    temp = [func(game_list) for func in v_funcs]
+    temp = [func(data_list) for func in v_funcs]
 
     d_type = [(arg, arr.dtype) for arr, arg in zip(temp, arg_labels)]
-    game_results = np.empty(len(game_list), dtype=d_type)
+    game_results = np.empty(len(data_list), dtype=d_type)
 
     for arr, arg in zip(temp, arg_labels):
         game_results[arg] = arr
@@ -69,4 +71,5 @@ def get_result_list(game_list: list, player_name: str) -> dict:
         Get number of games per game result
     """
     list_result = [game.get_result(player_name) for game in game_list]
+    np.unique(list_result, return_counts=True)
     return {el: list_result.count(el) for el in set(list_result)}
