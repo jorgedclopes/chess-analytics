@@ -1,7 +1,7 @@
 all: install approve docs
 
 install:
-	pip3 install -r requirements.txt
+	pip3 install --upgrade -r requirements.txt
 
 lint:
 	pylint --rcfile=.pylintrc src

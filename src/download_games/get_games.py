@@ -13,12 +13,14 @@ from lichess.format import SINGLE_PGN
 from src.download_games.setup_env import setup
 
 
-def convert_ms_to_date(time_in_ms: int):
+def convert_ms_to_date(time_in_ms: int) -> datetime.datetime:
     """
     Convert epoch time in ms to readable datetime format.
 
-    Args:
-        time_in_ms (int): current epoch time in ms.
+    Parameters
+    ----------
+    time_in_ms : int
+        current epoch time in ms.
 
     Returns
     -------
@@ -33,13 +35,17 @@ def convert_ms_to_date(time_in_ms: int):
 def save_to_file(game: list,
                  save_dir: str,
                  save_file: str):
-    """Save game in file.
+    """Save game from lichess.org in file.
 
-    Args:
-        game (list): data about all downloaded chess games.
-        save_dir (str): Folder in which the games will be saved.
-        save_file (str): File in which the games will be saved.
-    Returns:
+    Parameters
+    ----------
+    game : list
+        data about all downloaded chess games.
+    save_dir : str
+        Folder in which the games will be saved.
+    save_file : str
+        File in which the games will be saved.
+    Returns
     -------
         None
 
@@ -56,20 +62,28 @@ def download_games(name: str,
                    is_rated: bool = True,
                    token: str = None
                    ) -> None:
-    """Function to fetch token from .env file.
+    """Fetch token from .env file.
 
-    Args:
-        name (str): Path to .env file with lichess token.
-        perf_type (str, list): filter time control
-            To download all several types,
-            provide them as a list.
-            Default = None
-        time_period (tuple): time window for games to download.
-            Default: [beginning of user account, latest account update time].
-        is_rated (bool): whether to download rated games, non-rated or all
-        token (str): token to authenticate to lichess
-            speeds up downloading the games
-            Default: None
+    Parameters
+    ----------
+    name : str
+        Path to .env file with lichess token.
+    db_dir : str
+        Folder to which write the file.
+    perf_type : str, list
+        filter time control
+        To download all several types, provide them as a list.
+        Default: None
+    time_period : tuple
+        time window for games to download.
+        Default: beginning of user account, latest account update time.
+    is_rated : bool
+        whether to download rated games, non-rated or all.
+        Default: True
+    token : str
+        Token to authenticate to lichess.
+        Speeds up downloading the games.
+        Default: None
 
     Returns
     -------

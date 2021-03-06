@@ -1,25 +1,41 @@
+"""
+    Classes with information about a given chess game.
+"""
+
+from __future__ import annotations
 import warnings
 from datetime import timedelta
-from typing import List, Any
+from typing import List
 import numpy as np
 import pgn
 
 
-def compute_delta_time(time) -> float:
+def compute_delta_time(time: str) -> float:
+    """
+    Parameters
+    ----------
+    time : str
+        Time for a given game. Format in HH:MM:SS.
+
+    Returns
+    -------
+        float
+            Total Number of seconds for a given time.
+    """
     time_args = ['hours', 'minutes', 'seconds']
     func_arg = {arg: int(val) for val, arg in zip(time.split(':'), time_args)}
     return timedelta(**func_arg).total_seconds()
 
 
 class ChessPlayer:
-    def __init__(self, name, rating=None):
+    def __init__(self, name: str, rating: str = None):
         self.name = name
 
         self.rating = 0
         if rating is not None:
             self.rating = int(rating)
 
-    def __eq__(self, other):
+    def __eq__(self, other: object) -> bool:
         if isinstance(other, str):
             return self.name == other
         return False
@@ -29,8 +45,9 @@ class ChessPlayer:
 
 
 class ChessGame:
-    """This class has all the basic information about the chess games.
-        """
+    """
+    This class has all the basic information about the chess games.
+    """
     def __init__(self):
         # General Game Information
         self.site = None
@@ -53,7 +70,7 @@ class ChessGame:
         self.turns = 0
         self.eco = None
 
-    def __str__(self):
+    def __str__(self) -> str:
         return (
             f'{self.variant} game between '
             f'{self.players["white"]} and {self.players["black"]}.\n'
@@ -63,14 +80,14 @@ class ChessGame:
         )
 
     @staticmethod
-    def load_pgn_file(filepath):
+    def load_pgn_file(filepath) -> List[ChessGame]:
         with open(filepath, 'r') as f:
             games = ChessGame.load_all_from_pgn(f.read())
 
         return games
 
     @staticmethod
-    def load_all_from_pgn(pgn_string):
+    def load_all_from_pgn(pgn_string) -> List[ChessGame]:
         games = [
             ChessGame.load_from_pgn_game(pgn_game)
             for pgn_game in pgn.loads(pgn_string)
@@ -80,7 +97,7 @@ class ChessGame:
 
     # This should also be a constructor of some sort
     @staticmethod
-    def load_from_pgn_game(pgn_game):
+    def load_from_pgn_game(pgn_game) -> ChessGame:
         """
         Game class from library attributes:
             'event', 'site', 'date', 'round', 'white', 'black',
@@ -89,10 +106,10 @@ class ChessGame:
             'whiteelo', 'blackelo', 'whiteratingdiff', 'blackratingdiff',
             'variant', 'eco'
 
-            Returns
-            -------
-                list()
-                    returns the result of a game for a given player
+        Returns
+        -------
+            list()
+                returns the result of a game for a given player.
         """
 
         new_game = ChessGame()
@@ -130,35 +147,44 @@ class ChessGame:
 
         return new_game
 
-    def is_player_or_color(self, user, color) -> bool:
+    def is_player_or_color(self, user: str, color: str) -> bool:
         """
+
+        Parameters
+        ----------
+        user : str
+            name of the user we want to check is in the game.
+        color : str
+            color we want to check is in the game.
+            Note: can be different than black and white.
         Returns
         -------
             bool
-                whether the input player or color is in the game
+                whether the input player or color is in the game.
         """
-        return user in (self.players[color], color)
+        return user in (self.players[color].name, color)
 
-    def get_player_names(self) -> list:
+    def get_player_names(self) -> List[str]:
         """
         Returns
         -------
-            list(str)
-                a list with the names of the players if
+            List[str]
+                a list with the names of the players in the game.
         """
         return [p.name for p in self.players.values()]
 
-    def get_result(self, user) -> str:
+    def get_result(self, user: str) -> str:
         """
 
-        Args
+        Parameters
         -------
-        user (str): name of the user for which we want the result
+        user : str
+            name of the user for which we want the result.
 
         Returns
         -------
             string
-                returns the result of a game for a given player
+                returns the result of a game for a given player.
         """
         result = None
         if (user not in self.get_player_names()) and (user not in ("white", "black")):
@@ -177,7 +203,20 @@ class ChessGame:
             raise RuntimeError("Get_result does not fall in any of the conditions.")
         return result
 
-    def get_rating_diff(self, user) -> int:
+    def get_rating_diff(self, user: str) -> int:
+        """
+        Get the rating difference between the player and his/her opponent.
+        Note: This function uses deprecated concepts where we have only 1 opponent.
+
+        Parameters
+        ----------
+        user : str
+            name of the player.
+
+        Returns
+        -------
+            get player's rating subtracted by the opponent's rating.
+        """
         if self.players['white'] == user:
             factor = 1
         else:
@@ -185,7 +224,16 @@ class ChessGame:
         r = factor * (int(self.players['white'].rating) - int(self.players['black'].rating))
         return r
 
-    def split_moves_clocks(self) -> Any:
+    def split_moves_clocks(self) -> tuple:
+        """
+        Moves and times don't come separated from the pgn.
+        This function parses each move and extracts the player's remaining time, if present.
+
+        Returns
+        -------
+            tuple
+                returns the pair of moves and respective times, if available.
+        """
         if isinstance(self.moves, list) and len(self.moves) >= 2:
             if "clk" in self.moves[1]:
                 moves = self.moves[::2]
@@ -195,32 +243,102 @@ class ChessGame:
                 return moves, clocks
         return self.moves, None
 
-    def get_player_color(self, user) -> str:
+    def get_player_color(self, user: str) -> str:
+        """
+
+        Parameters
+        ----------
+        user : str
+            name of the player for which we want to find the color.
+
+        Returns
+        -------
+            str
+                player color.
+        """
         for k, v in self.players.items():
             if v == user:
                 return k
         raise UserWarning('No such player in this game.')
 
-    def get_opponent_color(self, user) -> List[int]:
+    def get_opponent_color(self, user: str) -> List[str]:
+        """
+
+        Parameters
+        ----------
+        user : str
+            name of the player for which we want to find the color.
+
+        Returns
+        -------
+            list(str)
+                list of colors of opponent players
+        """
         player_color = self.get_player_color(user)
         opponent_colors = [x for x in self.players if x is not player_color]
         return opponent_colors
 
     def get_player_rating(self, user) -> int:
+        """
+
+        Parameters
+        ----------
+        user : str
+            name of the player for which we want to find the rating.
+
+        Returns
+        -------
+            int
+                player's rating.
+        """
         color = self.get_player_color(user)
         return self.players[color].rating
 
-    def get_opponent_rating(self, user) -> List[int]:
+    def get_opponent_rating(self, user: str) -> List[int]:
+        """
+        TODO: this function will need some improvement.
+        TODO: We have the opponent's rating but an identifier is needed.
+        Parameters
+        ----------
+        user : str
+            player for which we want the opponent's rating
+
+        Returns
+        -------
+            list(int)
+                list of opponent's ratings
+        """
         color = self.get_opponent_color(user)
         return [self.players[c].rating for c in color]
 
     def parse_month_year(self) -> float:
+        """
+        Take the date in which the game was played and returns the year/month information.
+        Returns
+        -------
+            float
+                return the year plus the portion of the year passed discretised by month.
+        """
         year = self.date.split('.')[0]
         month = self.date.split('.')[1]
         return float(year) + float(month) / 12 - 1 / 12
 
     def parse_hours(self) -> int:
+        """
+
+        Returns
+        -------
+            int
+                The hour of the days in which the game was played.
+        """
         return int(self.utctime.split(':')[0])
 
     def get_month_year(self) -> np.datetime64:
+        """
+
+        Returns
+        -------
+            np.datetime64
+                returns the date YY/MM
+        """
         return np.datetime64(self.date.replace('.', '-'), 'M')

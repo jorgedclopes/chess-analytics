@@ -43,7 +43,7 @@ class TestGame:
     @staticmethod
     def test_check_result():
         game = ChessGame.load_pgn_file("tests/unit/pgn_files/loss_game_example.pgn")
-        assert game[0].get_result('carequinha') == 'LOSS'
+        assert game[0].get_result("carequinha") == 'LOSS'
 
         game = ChessGame.load_pgn_file("tests/unit/pgn_files/win_game_example.pgn")
         assert game[0].get_result('carequinha') == 'WIN'
