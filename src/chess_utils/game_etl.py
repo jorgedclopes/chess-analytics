@@ -27,24 +27,20 @@ def array_reshape(data: np.ndarray, n_point: int) -> np.ndarray:
 
 def data_transform_array(data_list: list, funcs: List[function], arg_labels=None):
     """
-    This function takes a list of data and applies a list of functions.
-    The functions are applied to each game and labeled according to arg_labels.
-    This function helps to transform the data.
-    The initial purpose of this function was to prepare data to plot.
-    but we can also use it to prepare for analysis.
+    This function takes a list of data and applies a list of functions to each element of the data.
 
     Parameters
     ----------
     data_list : list
-        raw data of list of games
+        raw data of list of (N) games.
     funcs : list
-        list of functions to be applied to the games list
+        list of (M) functions to be applied to the games list.
     arg_labels : list
-        list of labels for the np.array columns
+        list of labels for the np.array columns.
 
     Returns
     -------
-        np.array with columns transformed by funcs
+        np.array with N arrays of M elements transformed by funcs.
     """
     if arg_labels is None:
         arg_labels = ['X', 'Y', 'Z']
