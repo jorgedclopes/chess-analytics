@@ -1,7 +1,4 @@
-from builtins import function
-
 import numpy as np
-from typing import List
 
 
 def array_reshape(data: np.ndarray, n_point: int) -> np.ndarray:
@@ -25,7 +22,7 @@ def array_reshape(data: np.ndarray, n_point: int) -> np.ndarray:
     )
 
 
-def data_transform_array(data_list: list, funcs: List[function], arg_labels=None):
+def data_transform_array(data_list: list, funcs: list, arg_labels=None):
     """
     This function takes a list of data and applies a list of functions to each element of the data.
 
