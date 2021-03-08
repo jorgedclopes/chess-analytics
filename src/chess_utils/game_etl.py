@@ -1,13 +1,16 @@
+from builtins import function
+
 import numpy as np
+from typing import List
 
 
-def array_reshape(data: np.array, n_point: int) -> np.ndarray:
+def array_reshape(data: np.ndarray, n_point: int) -> np.ndarray:
     """
-    Split an np array into np ndarray where each row has n_points.
+    Split an np array into np.ndarray where each row has n_points.
 
     Parameters
     ----------
-    data : np.array
+    data : np.ndarray
         array with data
     n_point : int
         number of points per row
@@ -22,7 +25,7 @@ def array_reshape(data: np.array, n_point: int) -> np.ndarray:
     )
 
 
-def data_transform_array(data_list: list, funcs, arg_labels=None):
+def data_transform_array(data_list: list, funcs: List[function], arg_labels=None):
     """
     This function takes a list of data and applies a list of functions.
     The functions are applied to each game and labeled according to arg_labels.
@@ -56,7 +59,7 @@ def data_transform_array(data_list: list, funcs, arg_labels=None):
     return game_results
 
 
-def get_result_list(game_list: list, player_name: str) -> dict:
+def get_result_list(game_list: list, player_name: str) -> np.ndarray:
     """
 
     Parameters
@@ -68,8 +71,8 @@ def get_result_list(game_list: list, player_name: str) -> dict:
 
     Returns
     -------
-        Get number of games per game result
+        np.ndarray
+            Get number of games per game result
     """
     list_result = [game.get_result(player_name) for game in game_list]
-    np.unique(list_result, return_counts=True)
-    return {el: list_result.count(el) for el in set(list_result)}
+    return np.unique(list_result, return_counts=True)
