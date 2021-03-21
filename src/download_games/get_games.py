@@ -8,6 +8,8 @@ import warnings
 from pathlib import Path
 from pprint import pprint
 import datetime
+from typing import List
+
 import lichess.api
 from lichess.format import SINGLE_PGN
 from src.download_games.setup_env import setup
@@ -121,7 +123,7 @@ def download_games(name: str,
     print(convert_ms_to_date(initial_time),
           convert_ms_to_date(latest_time))
 
-    games_list = list()
+    games_list: List[str] = list()
 
     time_30min = 30 * 60 * 1000
     increment = max([int(delta_time / 100), time_30min])

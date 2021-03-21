@@ -3,7 +3,7 @@ import numpy as np
 
 def array_reshape(data: np.ndarray, n_point: int) -> np.ndarray:
     """
-    Split an np array into np.ndarray where each row has n_points.
+    Split an np.ndarray into np.ndarray where each row has n_points.
 
     Parameters
     ----------
@@ -37,7 +37,7 @@ def data_transform_array(data_list: list, funcs: list, arg_labels=None):
 
     Returns
     -------
-        np.array with N arrays of M elements transformed by funcs.
+        np.ndarray with N arrays of M elements transformed by funcs.
     """
     if arg_labels is None:
         arg_labels = ['X', 'Y', 'Z']
