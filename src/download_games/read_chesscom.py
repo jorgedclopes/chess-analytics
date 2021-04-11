@@ -3,11 +3,11 @@
 # This program works as of 5/05/2020
 
 
-import glob # pragma: no cover
-import os # pragma: no cover
-import urllib.request # pragma: no cover
-from ast import literal_eval # pragma: no cover
-from pathlib import Path # pragma: no cover
+import glob
+import os
+import urllib.request
+from ast import literal_eval
+from pathlib import Path
 
 
 def get_chess_dot_com_games(
