@@ -9,6 +9,7 @@ from pathlib import Path
 from pprint import pprint
 import datetime
 from typing import List
+import rootpath
 
 import lichess.api
 from lichess.format import SINGLE_PGN
@@ -156,7 +157,9 @@ def download_games(name: str,
 
 
 if __name__ == '__main__':  # pragma: no cover
-    auth = setup(path="../")
+    root_path = rootpath.detect()
+    path = os.path.join(root_path, '/resources')
+    auth = setup(path=path)
     user_name = 'carequinha'
     user_stats = lichess.api.user(user_name)
     time_creation = user_stats['createdAt']
@@ -166,7 +169,7 @@ if __name__ == '__main__':  # pragma: no cover
 
     # this is a mock to demo how to use this function, the timeframes are very small
     download_games(user_name,
-                   db_dir="../../resources",
+                   db_dir=path,
                    perf_type="blitz",
                    time_period=(time_creation, time_mock),
                    token=auth)
