@@ -2,7 +2,7 @@ import warnings
 
 import pytest
 
-from src.setup_env import setup
+from src.download_games.setup_env import setup
 
 
 class TestSetup:

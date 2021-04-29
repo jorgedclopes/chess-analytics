@@ -11,10 +11,10 @@ from pathlib import Path
 
 
 def get_chess_dot_com_games(
-    username: str = "mythaar",
-    path: str = "resources/",
-    new_file_name: str = 'chessdotcom_games.pgn'
-):
+        username: str = "mythaar",
+        path: str = "resources/",
+        new_file_name: str = 'chessdotcom_games.pgn'
+):  # pragma: no cover
     Path(path).mkdir(parents=True,
                      exist_ok=True)
     base_url = "https://api.chess.com/pub/player/" + \
@@ -39,9 +39,9 @@ def get_chess_dot_com_games(
     for archive in archives_list:
         url = base_url + archive + "/pgn"
         filename = archive.replace("/", "-")
-        urllib.request\
-              .urlretrieve(url,
-                           path + filename + ".pgn")
+        urllib.request \
+            .urlretrieve(url,
+                         path + filename + ".pgn")
 
     with open(path + new_file_name, 'w') as outfile:
         for fname in glob.glob(path + "20*.pgn"):

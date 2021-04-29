@@ -1,8 +1,8 @@
-python-dotenv
+python-dotenv~=0.14.0
 python-lichess
 jupyterlab
 nbstripout
-pytest
+pytest~=6.1.0
 pdoc3
 pylint
 pgnparser
@@ -10,3 +10,7 @@ pre-commit
 coverage
 pytest-cov
 mypy
+python-chess
+setuptools~=39.0.1
+numpy~=1.19.4
+rootpath

@@ -1,0 +1,18 @@
+[Event "Rated Blitz game"]
+[Site "https://lichess.org/0fPCOliU"]
+[Date "2016.01.13"]
+[White "carequinha"]
+[Black "HardyJ"]
+[Result "0-1"]
+[UTCDate "2016.01.13"]
+[UTCTime "15:40:18"]
+[WhiteElo "1976"]
+[BlackElo "1745"]
+[WhiteRatingDiff "-39"]
+[BlackRatingDiff "+17"]
+[Variant "Standard"]
+[TimeControl "180+0"]
+[ECO "A43"]
+[Termination "Normal"]
+
+1. d4 c5 2. d5 d6 3. c4 b5 4. Nc3 b4 5. Ne4 Nd7 6. Nf3 Ngf6 7. Nxf6+ Nxf6 8. Bg5 Bf5 9. e3 Ne4 10. Bh4 Qa5 11. b3 g6 12. Bd3 Bg7 13. Qc2 Bxa1 14. Bxe4 Bc3+ 15. Kf1 Bxe4 16. Qxe4 f6 17. Bg3 Be5 18. Nxe5 fxe5 19. Bxe5 dxe5 20. Qxe5 Rf8 21. d6 Qd8 22. dxe7 Qxe7 23. Qd5 Rd8 24. Qc6+ Rd7 25. e4 Qf6 26. Qxf6 Rxf6 27. g3 Re7 28. f4 Rxe4 29. Kf2 Rfe6 30. Rd1 Re2+ 31. Kf3 R6e3+ 32. Kg4 Ke7 33. Rd5 Kf6 34. Rxc5 h5+ 35. Kh3 Rxa2 36. Rb5 Ree2 37. g4 Rxh2+ 38. Kg3 h4+ 39. Kf3 Rhf2+ 40. Ke4 Rae2+ 41. Kd5 h3 42. g5+ Kf7 43. Ra5 Rxf4 44. Rxa7+ Re7 45. Ra1 Rf5+ 46. Kd4 Rxg5 47. Rh1 Rh5 48. Rh2 g5 49. Kc5 g4+ 50. Kxb4 g3 51. Rd2 g2 52. Rf2+ Kg7 0-1
