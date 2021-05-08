@@ -12,7 +12,7 @@ docs: cleandocs
 	pdoc3 --html --force -c syntax_highlighting=False --output-dir docs src
 
 test:
-	pytest --cov-report html --cov=src -vv --cov-fail-under=70
+	python3 -m pytest --cov-report html --cov=src -vv --cov-fail-under=70
 
 check-type:
 	mypy --ignore-missing-imports src
