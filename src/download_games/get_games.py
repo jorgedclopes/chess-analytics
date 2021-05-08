@@ -158,7 +158,7 @@ def download_games(name: str,
 
 if __name__ == '__main__':  # pragma: no cover
     root_path = rootpath.detect()
-    path = os.path.join(root_path, '/resources')
+    path = os.path.join(root_path, 'resources')
     auth = setup(path=path)
     user_name = 'carequinha'
     user_stats = lichess.api.user(user_name)
@@ -171,5 +171,5 @@ if __name__ == '__main__':  # pragma: no cover
     download_games(user_name,
                    db_dir=path,
                    perf_type="blitz",
-                   time_period=(time_creation, time_mock),
+                   # time_period=(time_creation, time_mock),
                    token=auth)
