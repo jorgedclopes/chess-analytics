@@ -2,6 +2,7 @@ all: install approve docs
 
 install:
 	pip3 install --upgrade -r requirements.txt
+	export PYTHONPATH=$(pwd)
 
 lint:
 	pylint --rcfile=.pylintrc src
@@ -11,7 +12,7 @@ docs: cleandocs
 	pdoc3 --html --force -c syntax_highlighting=False --output-dir docs src
 
 test:
-	python3 -m pytest --cov-report html --cov=src -vv --cov-fail-under=70
+	pytest --cov-report html --cov=src -vv --cov-fail-under=70
 
 check-type:
 	mypy --ignore-missing-imports src
