@@ -24,11 +24,11 @@ def get_chess_dot_com_games(
 
     # read the archives url and store in a list
 
-    f = urllib.request.urlopen(archives_url)
-    read_f = f.read().decode("utf-8")
-    archives_list = list(
-        map(lambda x: x.split('games/')[-1],
-            list(literal_eval(read_f).values())[0]))
+    with urllib.request.urlopen(archives_url) as f:
+        read_f = f.read().decode("utf-8")
+        archives_list = list(
+            map(lambda x: x.split('games/')[-1],
+                list(literal_eval(read_f).values())[0]))
 
     # pprint("archives")
     # pprint(literal_eval(read_f).values())

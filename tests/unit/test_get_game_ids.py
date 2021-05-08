@@ -96,8 +96,8 @@ class TestDownload:
         path = '.'
         filename = 'a'
         full_path = os.path.join(path, filename + ".pgn")
-        a = open(full_path, 'w')
-        a.close()
+        with open(full_path, 'w') as a:
+            a.close()
 
         with pytest.warns(Warning):
             download_games(filename,

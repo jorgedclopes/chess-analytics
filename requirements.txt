@@ -1,6 +1,6 @@
 python-dotenv~=0.14.0
 python-lichess
-jupyterlab
+#jupyterlab
 nbstripout
 pytest~=6.1.0
 pdoc3
@@ -10,7 +10,8 @@ pre-commit
 coverage
 pytest-cov
 mypy
-python-chess
+chess
 setuptools~=39.0.1
 numpy~=1.19.4
+matplotlib
 rootpath
