@@ -1,6 +1,6 @@
 python-dotenv~=0.14.0
 python-lichess
-#jupyterlab
+jupyterlab
 nbstripout
 pytest~=6.1.0
 pdoc3
@@ -15,3 +15,5 @@ setuptools~=39.0.1
 numpy~=1.19.4
 matplotlib
 rootpath
+tensorflow
+scikit-learn
